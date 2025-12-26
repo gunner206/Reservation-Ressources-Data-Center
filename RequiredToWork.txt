@@ -1,0 +1,44 @@
+Step 1: Clone and Dependencies
+in Linux (Bash):
+    # Clone the repository
+    git clone https://github.com/your-username/your-repo.git
+    cd your-repo
+
+    # Install PHP dependencies
+    composer install
+
+    # Install Frontend dependencies
+    npm install
+
+Step 2: Environment Configuration
+    # Copy the example file
+    cp .env.example .env
+
+    # Generate a unique encryption key
+    php artisan key:generate
+
+Step 3: Database
+    php artisan migrate --seed
+ -----------------------------------------------
+For Windows(Power shell)
+
+    # 1. Enter the project directory
+    cd your-project-name
+
+    # 2. Install PHP libraries
+    composer install
+
+    # 3. Install JavaScript libraries
+    npm install
+
+    # 4. Create the environment file
+    Copy-Item .env.example .env
+
+    # 5. Open the .env file to configure your DB (optional, if you need to edit it)
+    notepad .env
+
+    # 6. Generate the encryption key
+    php artisan key:generate
+
+    # 7. Create database tables and dummy data
+    php artisan migrate --seed

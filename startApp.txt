@@ -1,0 +1,15 @@
+1. If you are on Windows
+Open Docker Desktop: Press the Start key, type "Docker Desktop," and click to open it.
+
+Wait: Look at the bottom left of the Docker Desktop window (or the whale icon in your taskbar system tray). Wait until the status indicator turns Green or says "Engine Running."
+
+WSL2 Requirement: If Docker asks to install WSL2 (Windows Subsystem for Linux), you must allow it. This is required for Laravel Sail to run efficiently on Windows.
+
+If you are on macOS
+Open Docker Desktop: Press Cmd + Space, search for "Docker," and open the application.
+
+Wait: Look for the Docker whale icon in your top menu bar. The container animation should stop moving and become steady when it is ready.
+
+Linux : sudo systemctl start docker
+
+command ./vendor/bin/sail up
