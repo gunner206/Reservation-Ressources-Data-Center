@@ -10,7 +10,7 @@ class Category extends Model
      * Nom de la table en base de données
      * @var string
      */
-    protected $table = 'CATEGORIES';
+    protected $table = 'categories';
 
     /**
      * Colonnes qui peuvent être remplies en masse

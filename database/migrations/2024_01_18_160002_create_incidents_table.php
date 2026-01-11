@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::create('INCIDENTS', function (Blueprint $table) {
+        Schema::create('incidents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('resource_id')->constrained('RESOURCES')->onDelete('cascade');
+            $table->foreignId('resource_id')->constrained('resources')->onDelete('cascade');
             $table->string('title');
             $table->text('description');
             $table->enum('priority', ['low','medium','high','critical'])->default('medium');
@@ -18,5 +18,5 @@ return new class extends Migration {
             $table->index('status');
         });
     }
-    public function down() { Schema::dropIfExists('INCIDENTS'); }
+    public function down() { Schema::dropIfExists('incidents'); }
 };
