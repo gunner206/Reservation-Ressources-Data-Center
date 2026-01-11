@@ -5,12 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RessourceController;
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-// TESTS (à supprimer plus tard)
-Route::get('/test-simple', function() {
-    return "TEST SIMPLE - OK";
+    return view('layout');
 });
 
 // ROUTES RESSOURCES (version manuelle)
