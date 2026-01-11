@@ -10,7 +10,7 @@ class Resource extends Model
     use HasFactory;
 
     // Nom de la table en MAJUSCULES
-    protected $table = 'RESOURCES';
+    protected $table = 'resources';
 
     protected $fillable = [
         'name', 'code', 'category_id', 'manager_id',
@@ -35,5 +35,10 @@ class Resource extends Model
     public function incidents()
     {
         return $this->hasMany(Incident::class, 'resource_id');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'resource_id');
     }
 }

@@ -9,7 +9,7 @@ class Incident extends Model
 {
     use HasFactory;
 
-    protected $table = 'INCIDENTS';
+    protected $table = 'incidents';
 
     protected $fillable = [
         'user_id', 'resource_id', 'title', 'description',

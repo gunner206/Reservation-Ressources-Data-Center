@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+    protected $table = 'reservations';
     protected $fillable = [
         'user_id',
         'resource_id',
@@ -25,5 +26,17 @@ class Reservation extends Model
             $query->where('start_date', '<', $end)
             ->where('end_date', '>', $start);
         })->exists();
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function resource()
+    {
+        return $this->belongsTo(Resource::class, 'resource_id');
+    }
+    public function validatedBy()
+    {
+        return $this->belongsTo(User::class, 'validated_by');
     }
 }

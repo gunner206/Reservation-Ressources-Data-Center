@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::create('RESOURCES', function (Blueprint $table) {
+        Schema::create('resources', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('code')->unique();
-            $table->foreignId('category_id')->constrained('CATEGORIES')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('manager_id')->nullable()->constrained('users')->onDelete('set null');
             $table->text('description')->nullable();
             $table->json('specs')->nullable();
@@ -19,5 +19,5 @@ return new class extends Migration {
             $table->index('is_active');
         });
     }
-    public function down() { Schema::dropIfExists('RESOURCES'); }
+    public function down() { Schema::dropIfExists('resources'); }
 };

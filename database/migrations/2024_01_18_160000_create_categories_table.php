@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::create('CATEGORIES', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('icon')->nullable();
             $table->timestamps();
         });
     }
-    public function down() { Schema::dropIfExists('CATEGORIES'); }
+    public function down() { Schema::dropIfExists('categories'); }
 };

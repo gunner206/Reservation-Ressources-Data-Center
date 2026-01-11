@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\Category;
 use App\Models\Reservation;
 use App\Models\Ressource;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        $categories = Categorie::with('resources')->get();
+        $categories = Category::with('resources')->get();
 
         return view('reservations.create', compact('categories'));
     }
