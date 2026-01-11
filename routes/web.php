@@ -2,18 +2,28 @@
 
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;      
-use App\Http\Controllers\RessourceController; 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RessourceController;
 
 // Page d'accueil (Publique) -> Affiche le Login
 Route::get('/', function () {
     return view('layout');
 });
 
+// --------------------
+// ZONE SÉCURITÉ
+// --------------------
+
+// Routes pour les invités (Non connectés)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
 // Routes protégées (Connectés seulement)
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    
+
     // Page Dashboard temporaire
     Route::get('/dashboard', function () {
         return "Bienvenue " . auth()->user()->name . " ! Votre rôle est : " . auth()->user()->role;
@@ -21,7 +31,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // --------------------
-// ZONE RESSOURCES 
+// ZONE RESSOURCES
 // --------------------
 
 // TESTS (à supprimer plus tard)

@@ -9,14 +9,20 @@ class Incident extends Model
 {
     use HasFactory;
 
+    protected $table = 'INCIDENTS';
+
     protected $fillable = [
-        'titre', 'description', 'ressource_id', 'utilisateur_id',
-        'statut', 'priorite', 'date_resolution', 'solution'
+        'user_id', 'resource_id', 'title', 'description',
+        'priority', 'status'
     ];
 
-    // Relation : Un incident concerne une ressource
-    public function ressource()
+    public function user()
     {
-        return $this->belongsTo(Ressource::class, 'ressource_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function resource()
+    {
+        return $this->belongsTo(Resource::class, 'resource_id');
     }
 }
