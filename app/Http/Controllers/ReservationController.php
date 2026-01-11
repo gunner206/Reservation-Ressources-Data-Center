@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use App\Models\Reservation;
+use App\Models\Ressource;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -12,7 +14,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -20,7 +22,9 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Categorie::with('resources')->get();
+
+        return view('reservations.create', compact('categories'));
     }
 
     /**
