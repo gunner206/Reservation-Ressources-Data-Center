@@ -28,6 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return "Bienvenue " . auth()->user()->name . " ! Votre rôle est : " . auth()->user()->role;
     });
+ 
+    // Réservation CRUD
+    Route::resource('/reservations', ReservationController::class);
+
+    // Action de validation
+    Route::patch('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
+    Route::patch('/reservations/{id}/refuse', [ReservationController::class, 'refuse'])->name('reservations.refuse');
 });
 
 // --------------------
@@ -50,9 +57,7 @@ Route::get('/ressources/{id}/edit', [RessourceController::class, 'edit'])->name(
 Route::put('/ressources/{id}', [RessourceController::class, 'update'])->name('ressources.update');
 Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])->name('ressources.destroy');
 
-// Routes Réservation
-Route::get('/reservation/create', [ReservationController::class, 'create']);
-Route::post('/reservation', [ReservationController::class, 'store']);
+
 
 // Test ultra-simple
 Route::get('/test-ressources', function() {

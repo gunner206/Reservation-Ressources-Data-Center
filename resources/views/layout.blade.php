@@ -14,7 +14,7 @@
         </div>
         <nav class="menu">
             <a href="/dashboard">Dashboard</a>
-            <a href="/reservation">Reservation</a>
+            <a href="/reservations">Reservation</a>
             <a href="/contacts">Contacts</a>
         </nav>
         <div class="auth-buttons">
