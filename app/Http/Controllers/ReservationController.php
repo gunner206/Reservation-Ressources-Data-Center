@@ -15,7 +15,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        
+        return view('reservations.index');
     }
 
     /**
@@ -53,13 +53,13 @@ class ReservationController extends Controller
             'resource_id' => $request->resource_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'justification' => $request->justification,
             'status' => 'pending',
-            'type' => 'standard',
-            'justification' => $request->justification
+            'type' => 'standard'
         ]);
 
         // la confirmation
-        return redirect()->route('dashboard')->with('succes', 'Votre demande a ete envoyee au responsable !');
+        return redirect()->route('reservations.index')->with('succes', 'Votre demande a ete envoyee au responsable !');
     }
 
     /**
@@ -92,5 +92,43 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+    }
+
+    // Methodes de validation et refuse de reservation (Manager)
+    public function approve($id){
+        $reservation = Reservation::findOrFail($id);
+        if (auth()->user()->role !== 'manager' && auth()->user()->role !== 'admin'){
+            abort(403, 'Access Denied');
+        }
+        $reservation->update([
+            'status' => 'approved',
+            'validated_by' => auth()->user()->id
+        ]);
+
+        \App\Models\Notification::create([
+            'user_id' => $reservation->user_id,
+            'message'=> "Votre reservation pour" .$reservation->resource->name." est Approvee",
+            'is_read' => false
+        ]);
+        return back()->with('Succes', 'Reservation validee avec succes !');
+
+    }
+    public function refuse($id){
+        $reservation = Reservation::findOrFail($id);
+
+        if(auth()->user()->role !== 'manager' && auth()->user()->role !== 'admin'){
+            abort(403, 'Access Denied');
+        }
+
+        $reservation->update([
+            'status' => 'rejected'
+        ]);
+        \App\Models\Notification::create([
+            'user_id' => $reservation->user_id,
+            'message'=> "Votre reservation pour" .$reservation->resource->name." est Refusee",
+            'is_read' => false
+        ]);
+        
+        return back()->with('Succes', 'Reservation Refusee !');
     }
 }
