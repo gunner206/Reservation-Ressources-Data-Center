@@ -6,7 +6,7 @@
     <div class="timeline-header">
         <div class="header-name">Ressource</div>
         <div class="header-hours">
-            @for($h = 8; $h <= 18; $h++)
+            @for($h = 8; $h <= 22; $h++)
                 <span style="left: {{ ($h - 8) * 10 }}%">{{ $h }}h</span>
             @endfor
         </div>
@@ -21,7 +21,6 @@
             <div class="row-track">
                 @foreach($resource->reservations as $res)
                     @php
-                        // --- TON ALGORITHME DE CALCUL --- //
                         
                         // Bornes de la journée (en minutes)
                         $startDay = 8 * 60;  // 480 min (08h00)
@@ -51,29 +50,54 @@
         </div>
     @endforeach
 </div>
+
 <div class="reservation-form">
-    <fieldset>
-        <legend>Reservation</legend>
-        <form method="post" action="/reservation">
-            <label for='resource'>Choisire un resource </label>
-            <select name='resource_id' id='resource'>
-                @foreach($categories as $categorie)
-                    <optgroup label="{{ categorie->name }}">
-                        @foreach ($categorie->resources as resource)
-                            <option value="{{ resource->id }}"
-                                {{ old('resource_id') == $resource->id ? 'selected' : ''}}>
-                                {{ resource->name }}</option>
-                        @endforeach
-                    </optgroup>
-                @endforeach
-            </select>
-            <inpud type="date" name="start_date" value="{{ old('start_date') }}">
-            <input type="date" name="end_date" value="{{ old('end_date') }}">
-            <input type="time" name="start_time" value="{{ old('start_time') }}">
-            <input type="time" name="end_time" value="{{ old('end_time') }}">
-            <input type="text" name="justification" placeholder="Justification" value="{{ old('justification') }}">
-            <button type="submit">Reserver</button>
-        </form>
-    </fieldset>
+<fieldset>
+    @if ($errors->any())
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin-bottom: 15px;">
+        <strong>Oups ! Il y a un problème :</strong>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+    <legend>Nouvelle Réservation</legend>
+    <form method="POST" action="{{ route('reservations.store') }}">
+        
+        @csrf 
+
+        <label for='resource'>Choisir une ressource :</label>
+        <select name='resource_id' id='resource' required>
+            @foreach($categories as $category)
+                <optgroup label="{{ $category->name }}">
+                    @foreach ($category->resources as $resource)
+                        <option value="{{ $resource->id }}"
+                            {{ old('resource_id') == $resource->id ? 'selected' : ''}}>
+                            {{ $resource->name }}
+                        </option>
+                    @endforeach
+                </optgroup>
+            @endforeach
+        </select>
+
+        <br><br>
+
+        <label>Début :</label>
+        <input type="datetime-local" name="start_date" value="{{ old('start_date') }}" required>
+        
+        <label>Fin :</label>
+        <input type="datetime-local" name="end_date" value="{{ old('end_date') }}" required>
+
+        <br><br>
+
+        <label>Motif :</label>
+        <input type="text" name="justification" placeholder="Justification" value="{{ old('justification') }}" required>
+        
+        <button type="submit">Réserver</button>
+    </form>
+</fieldset>
 </div>
+
 @endsection

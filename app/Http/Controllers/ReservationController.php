@@ -33,9 +33,15 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        $categories = Category::with('resources')->get();
+        $categories = \App\Models\Category::with('resources')->get();
 
-        return view('reservations.create', compact('categories'));
+        $resources = \App\Models\Resource::with(['reservations' => function($q) {
+            $q->whereDate('start_date', now())
+            ->whereIn('status', ['pending', 'approved'])
+            ->orderBy('start_date');
+        }])->get();
+
+        return view('reservations.create', compact('categories', 'resources'));
     }
 
     /**
@@ -59,7 +65,7 @@ class ReservationController extends Controller
 
         // Enregistrement dans la base de donne
         Reservation::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->user()->id,
             'resource_id' => $request->resource_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -101,7 +107,15 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        //
+        if(auth()->id() !== $reservation->user_id && auth()->user()->role !== 'admin' && auth()->user()->role !== 'manager'){
+            abort(403, 'Access Denied');
+        }
+        if (auth()->user()->role === 'internal' && $reservation->status !== 'pending'){
+            return back()->with('error', 'Imposible de Annuler une reservation deja traitee..');
+        }
+
+        $reservation->delete();
+        return back()->with('succes', 'Reservation annulee avec succes !');
     }
 
     // Methodes de validation et refuse de reservation (Manager)
@@ -117,8 +131,11 @@ class ReservationController extends Controller
 
         \App\Models\Notification::create([
             'user_id' => $reservation->user_id,
-            'message'=> "Votre reservation pour" .$reservation->resource->name." est Approvee",
-            'is_read' => false
+            'type'    => 'reservation_approved', // On définit un type
+            'data'    => [
+                'message' => "Votre réservation pour " . $reservation->resource->name . " a été validée ✅"
+            ],
+            'read_at' => null // NULL signifie "Non lu"
         ]);
         return back()->with('Succes', 'Reservation validee avec succes !');
 
@@ -135,8 +152,11 @@ class ReservationController extends Controller
         ]);
         \App\Models\Notification::create([
             'user_id' => $reservation->user_id,
-            'message'=> "Votre reservation pour" .$reservation->resource->name." est Refusee",
-            'is_read' => false
+            'type'    => 'reservation_rejected',
+            'data'    => [
+                'message' => "Votre réservation pour " . $reservation->resource->name . " a été refusée ❌"
+            ],
+            'read_at' => null
         ]);
         
         return back()->with('Succes', 'Reservation Refusee !');

@@ -13,9 +13,13 @@ class Notification extends Model
     protected $fillable = [
         'user_id',
         'type',
-        'message',
         'is_read',
         'data'
+    ];
+
+    protected $casts = [
+        'data' => 'array',
+        'read_at' => 'datetime',
     ];
 
     // Liaison : Une notification appartient à un utilisateur

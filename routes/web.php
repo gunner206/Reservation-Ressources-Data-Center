@@ -77,3 +77,4 @@ Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])->name
 Route::get('/test-ressources', function() {
     return "TEST RESSOURCES - DIRECT";
 });
+

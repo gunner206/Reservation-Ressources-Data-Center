@@ -3,7 +3,7 @@
 <div class="dashboard-container">
     <div class="header-flex">
         <h2>
-            @if(auth()->user()->role === 'manager')
+            @if(auth()->user()->role === 'manager' || auth()->user()->role === 'admin')git 
                 Gestion des Demandes
             @else
                 Mes Réservations
@@ -65,7 +65,7 @@
                                 <button type="submit" class="btn-icon btn-approve" title="Valider">✔</button>
                             </form>
 
-                            <form action="{{ route('reservations.reject', $res->id) }}" method="POST">
+                            <form action="{{ route('reservations.refuse', $res->id) }}" method="POST">
                                 @csrf @method('PATCH')
                                 <button type="submit" class="btn-icon btn-reject" title="Refuser">✖</button>
                             </form>
