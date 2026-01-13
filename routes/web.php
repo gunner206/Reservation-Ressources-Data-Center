@@ -4,7 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RessourceController;
-use Illuminate\Support\Facades\Auth; // <-- N'oublie pas d'ajouter ça pour le check Auth
+use Illuminate\Support\Facades\Auth;
+
+// Importation des modèles pour les statistiques et le dashboard
+use App\Models\User;
+use App\Models\Resource;
+use App\Models\Reservation;
+use App\Models\Incident;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,12 +18,13 @@ use Illuminate\Support\Facades\Auth; // <-- N'oublie pas d'ajouter ça pour le c
 |--------------------------------------------------------------------------
 */
 
-// 1. PAGE D'ACCUEIL (Modifiée)
+// 1. PAGE D'ACCUEIL & REDIRECTION
+// Redirige vers le dashboard si l'utilisateur est déjà connecté, sinon affiche la vue welcome
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
     }
-    return view('layout');
+    return view('welcome');
 })->name('home');
 
 // --------------------
@@ -33,47 +40,66 @@ Route::middleware('guest')->group(function () {
 // ZONE SÉCURISÉE (Auth)
 // --------------------
 Route::middleware('auth')->group(function () {
+
+    // Déconnexion
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    // DASHBOARD DYNAMIQUE (Hero Cards & Activités)
     Route::get('/dashboard', function () {
-        // Compteurs pour le dashboard
-        $totalUsers = \App\Models\User::count(); 
-        $totalResources = 0; // Remplace par \App\Models\Ressource::count() quand tu auras le modèle
-        
-        return view('dashboard', compact('totalUsers', 'totalResources')); 
+        // Calcul des ressources et de la santé de l'infrastructure
+        $totalResources = Resource::count();
+        $activeResources = Resource::where('is_active', true)->count();
+        $availableResources = Resource::where('is_active', true)
+            ->whereDoesntHave('reservations', function($query) {
+                $query->whereIn('status', ['pending', 'approved'])
+                      ->where('start_date', '<=', now())
+                      ->where('end_date', '>=', now());
+            })->count();
+
+        // Préparation des statistiques avancées (Stats Cards)
+        $stats = [
+            'total_users'          => User::count(),
+            'reservations_pending' => Reservation::where('status', 'pending')->count(),
+            'critical_incidents'   => Incident::whereIn('priority', ['high', 'critical'])
+                                              ->where('status', 'open')
+                                              ->count(),
+            // % de ressources actives
+            'infra_health'         => $totalResources > 0 ? round(($activeResources / $totalResources) * 100) : 0,
+            // % de ressources occupées (approuvées)
+            'occupancy'            => $totalResources > 0
+                ? round((Reservation::where('status', 'approved')->count() / $totalResources) * 100)
+                : 0,
+        ];
+
+        // Récupération des dernières activités avec relations User et Resource (Tableau)
+        $recentActivities = Reservation::with(['user', 'resource'])
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('dashboard', compact('stats', 'recentActivities'));
     })->name('dashboard');
 
+    // GESTION DES RÉSERVATIONS (CRUD complet + Actions de validation)
     Route::resource('reservations', ReservationController::class);
-
-    // Action de validation
     Route::patch('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
     Route::patch('/reservations/{id}/refuse', [ReservationController::class, 'refuse'])->name('reservations.refuse');
 
-    Route::resource('ressources', RessourceController::class); } )  ;
-
-// --------------------
-// ZONE RESSOURCES
-// --------------------
-
-// TESTS (à supprimer plus tard)
-Route::get('/test-simple', function() {
-    return "TEST SIMPLE - OK";
+    // GESTION DES RESSOURCES (CRUD complet protégé)
+    Route::resource('ressources', RessourceController::class);
 });
 
-// ROUTES RESSOURCES
-Route::get('/ressources', [RessourceController::class, 'index'])->name('ressources.index');
-Route::get('/ressources/create', [RessourceController::class, 'create'])->name('ressources.create');
-Route::post('/ressources', [RessourceController::class, 'store'])->name('ressources.store');
-
-// Routes pour CRUD complet
-Route::get('/ressources/{id}', [RessourceController::class, 'show'])->name('ressources.show');
-Route::get('/ressources/{id}/edit', [RessourceController::class, 'edit'])->name('ressources.edit');
-Route::put('/ressources/{id}', [RessourceController::class, 'update'])->name('ressources.update');
-Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])->name('ressources.destroy');
-
-
-
-// Test ultra-simple
-Route::get('/test-ressources', function() {
-    return "TEST RESSOURCES - DIRECT";
+// --------------------
+// ZONE DE TEST & DIAGNOSTIC
+// --------------------
+Route::get('/test-db', function() {
+    return [
+        'status' => 'OK',
+        'counts' => [
+            'users'        => User::count(),
+            'resources'    => Resource::count(),
+            'reservations' => Reservation::count(),
+            'incidents'    => Incident::count()
+        ]
+    ];
 });
