@@ -43,18 +43,13 @@ Route::middleware('auth')->group(function () {
         return view('dashboard', compact('totalUsers', 'totalResources')); 
     })->name('dashboard');
 
-<<<<<<< Updated upstream
     Route::resource('reservations', ReservationController::class);
-=======
 
     // Action de validation
->>>>>>> Stashed changes
     Route::patch('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
     Route::patch('/reservations/{id}/refuse', [ReservationController::class, 'refuse'])->name('reservations.refuse');
 
-<<<<<<< Updated upstream
-    Route::resource('ressources', RessourceController::class);
-=======
+    Route::resource('ressources', RessourceController::class); } )  ;
 
 // --------------------
 // ZONE RESSOURCES
@@ -81,5 +76,4 @@ Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])->name
 // Test ultra-simple
 Route::get('/test-ressources', function() {
     return "TEST RESSOURCES - DIRECT";
->>>>>>> Stashed changes
 });
