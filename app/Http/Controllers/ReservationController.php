@@ -15,7 +15,17 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        return view('reservations.index');
+        $user = auth()->user();
+        $query = Reservation::with(['resource', 'user']);
+
+        if ($user->role == 'admin' || $user->role == 'manager') {
+            $query->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')");
+        } else {
+            $query->where('user_id', $user->id);
+        }
+        $reservations = $query->orderBy('created_at', 'desc')->get();
+
+        return view('reservations.index', compact('reservations'));
     }
 
     /**
@@ -97,7 +107,7 @@ class ReservationController extends Controller
     // Methodes de validation et refuse de reservation (Manager)
     public function approve($id){
         $reservation = Reservation::findOrFail($id);
-        if (auth()->user()->role !== 'manager' && auth()->user()->role !== 'admin'){
+        if (auth()->user()->role != 'manager' && auth()->user()->role != 'admin'){
             abort(403, 'Access Denied');
         }
         $reservation->update([
