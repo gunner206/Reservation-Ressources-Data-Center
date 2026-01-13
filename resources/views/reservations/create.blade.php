@@ -59,7 +59,7 @@
             <select name='resource_id' id='resource'>
                 @foreach($categories as $categorie)
                     <optgroup label="{{ categorie->name }}">
-                        @foreach ($categore->resources as resource)
+                        @foreach ($categorie->resources as resource)
                             <option value="{{ resource->id }}"
                                 {{ old('resource_id') == $resource->id ? 'selected' : ''}}>
                                 {{ resource->name }}</option>
