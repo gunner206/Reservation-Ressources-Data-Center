@@ -18,14 +18,14 @@
             <a href="/contacts">Contacts</a>
         </nav>
         <div class="auth-buttons">
-            <a href="/register" class="btn-signup">Sign up</a>
+            <a href="{{ route('login', ['action' => 'signup']) }}" class="btn-signup">
+    Sign up
+</a>
             <a href="/login" class="btn-login">Login</a>
         </div>
     </header>
     <main>
-        <div class="content">
         @yield('content')
-    </div>
     </main>
     <footer>
        <div class="description">
