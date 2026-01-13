@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - Data Center</title>
+     <link rel="stylesheet" href="{{asset('css/login.css')}}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
 
@@ -12,20 +15,25 @@
     <div class="container" id="container">
         
         <div class="form-container sign-up">
-            <form>
-                <h1>Créer un compte</h1>
+            <form action="{{ route('register') }}" method="POST">
+                    @csrf <h1>Créer un compte</h1>
+                    
+                    <input type="text" name="name" placeholder="Nom" required />
+                    
+                    <input type="email" name="email" placeholder="Email" required />
+                    
+                    <input type="password" name="password" placeholder="Mot de passe" required />
+                    
+                    <button type="submit">S'INSCRIRE</button>
+
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="www.google.com" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="www.facebook.com" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="www.github.com" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="www.linkedin.com" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
-                <span>ou utilisez votre email pour l'inscription</span>
-                <input type="text" placeholder="Nom" >
-                <input type="email" placeholder="Email" >
-                <input type="password" placeholder="Mot de passe" >
-                <button type="button">S'inscrire</button>
-            </form>
+                
+              </form> 
         </div>
 
         <div class="form-container sign-in">
@@ -67,6 +75,6 @@
             </div>
         </div>
     </div>
-
+<script src="{{ asset('css/login.js') }}"></script>
 </body>
 </html>
