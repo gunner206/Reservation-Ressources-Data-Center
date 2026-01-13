@@ -15,6 +15,7 @@
         <nav class="menu">
             <a href="/dashboard">Dashboard</a>
             <a href="/reservations">Reservation</a>
+            <a href="/ressources">Ressources</a>
             <a href="/contacts">Contacts</a>
         </nav>
         <div class="auth-buttons">
@@ -36,6 +37,7 @@
          <h3>Activie</h3>
         <a href="/dashboard">Dashboard</a>
         <a href="/reservation">Reservation</a>
+        <a href="/ressources">Ressources</a>
 
        </div>
        <div class="Contacts">
