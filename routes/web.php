@@ -87,6 +87,20 @@ Route::middleware('auth')->group(function () {
 
     // GESTION DES RESSOURCES (CRUD complet protégé)
     Route::resource('ressources', RessourceController::class);
+
+    //ststeme de notification
+    Route::get('/notifications', function () {
+    $notifications = \App\Models\Notification::where('user_id', auth()->id())
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+    
+    // Marquer tout comme lu dès qu'on ouvre la page
+    \App\Models\Notification::where('user_id', auth()->id())
+        ->whereNull('read_at')
+        ->update(['read_at' => now()]);
+        
+        return view('notifications.index', compact('notifications'));
+    })->name('notifications.index');
 });
 
 // --------------------
@@ -103,3 +117,4 @@ Route::get('/test-db', function() {
         ]
     ];
 });
+

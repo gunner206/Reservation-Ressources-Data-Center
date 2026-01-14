@@ -30,10 +30,19 @@
                 </div>
                 <span class="user-name-label">{{ Auth::user()->name }}</span>
             </label>
+            @php
+                $unreadCount = \App\Models\Notification::where('user_id', auth()->id())
+                                ->whereNull('read_at')
+                                ->count();
+            @endphp
 
             <div class="dropdown-menu">
                 <a href="{{ route('reservations.index') }}">Mes Réservations</a>
-                <a href="#">Notifications</a>
+                <a href="{{ route('notifications.index') }}">Notifications
+                    @if($unreadCount > 0)
+                        <span style="background-color: red; color: white; padding: 2px 5px; border-radius: 50%;">{{ $unreadCount }}</span>
+                    @endif
+                </a>
                 <hr>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
