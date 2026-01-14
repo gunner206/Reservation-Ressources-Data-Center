@@ -58,6 +58,8 @@ class DatabaseSeeder extends Seeder
             'status' => 'pending',
             'department' => null,
         ]);
+
+        
         
         // --------------------------------------------
         // 2. CRÉATION DES CATÉGORIES

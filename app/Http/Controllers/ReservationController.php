@@ -35,13 +35,13 @@ class ReservationController extends Controller
     {
         $categories = \App\Models\Category::with('resources')->get();
 
-        $resources = \App\Models\Resource::with(['reservations' => function($q) {
+        $resourcesList = \App\Models\Resource::with(['reservations' => function($q) {
             $q->whereDate('start_date', now())
             ->whereIn('status', ['pending', 'approved'])
             ->orderBy('start_date');
         }])->get();
 
-        return view('reservations.create', compact('categories', 'resources'));
+        return view('reservations.create', compact('categories', 'resourcesList'));
     }
 
     /**
