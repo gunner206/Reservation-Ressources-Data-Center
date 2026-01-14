@@ -74,6 +74,20 @@ class ReservationController extends Controller
             'type' => 'standard'
         ]);
 
+        $managers = \App\Models\User::whereIn('role', ['manager', 'admin'])->get();
+
+        // Notifications pour les managers
+        foreach ($managers as $manager) {
+            \App\Models\Notification::create([
+                'user_id' => $manager->id,
+                'type'    => 'new_request',
+                'data'    => [
+                    'message' => 'Nouvelle demande de ' . auth()->user()->name . ' pour ' . $request->start_date
+                ],
+                'read_at' => null
+            ]);
+        }
+
         // la confirmation
         return redirect()->route('reservations.index')->with('succes', 'Votre demande a ete envoyee au responsable !');
     }
@@ -140,21 +154,24 @@ class ReservationController extends Controller
         return back()->with('Succes', 'Reservation validee avec succes !');
 
     }
-    public function refuse($id){
+    public function refuse(Request $request, $id){
         $reservation = Reservation::findOrFail($id);
 
         if(auth()->user()->role !== 'manager' && auth()->user()->role !== 'admin'){
             abort(403, 'Access Denied');
         }
 
+        $reason = $request->input('reject_reason', "Aucune raison n'a été donnée");
+
         $reservation->update([
-            'status' => 'rejected'
+            'status' => 'rejected',
+            'validated_by' => auth()->user()->id
         ]);
         \App\Models\Notification::create([
             'user_id' => $reservation->user_id,
             'type'    => 'reservation_rejected',
             'data'    => [
-                'message' => "Votre réservation pour " . $reservation->resource->name . " a été refusée ❌"
+                'message' => "Votre réservation pour " . $reservation->resource->name . " a été rejetée ❌. Raison : " .$reason
             ],
             'read_at' => null
         ]);

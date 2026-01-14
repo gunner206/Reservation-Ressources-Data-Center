@@ -62,7 +62,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
     <legend>Nouvelle Réservation</legend>
     <form method="POST" action="{{ route('reservations.store') }}">
         

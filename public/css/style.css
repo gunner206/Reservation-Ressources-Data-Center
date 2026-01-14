@@ -242,3 +242,529 @@ footer h3 {
     color: var(--text-gray);
     font-style: italic;
 }
+/* Section Authentification */
+.auth-section {
+    display: flex;
+    align-items: center;
+}
+
+/* Style de l'Avatar */
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    min-width: 80px;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    transition: background-color 0.3s;
+}
+
+.user-name-label {
+    font-size: 0.85rem;
+    color: white;
+    font-weight: 500;
+}
+
+/* Menu Deroulant */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    z-index: 1000;
+    min-width: 160px;
+    margin-top: 10px;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #444;
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-menu hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 4px 0;
+}
+
+.logout-btn {
+    color: #d63031 !important;
+    font-weight: 600;
+}
+.menu-checkbox {
+    display: none;
+}
+.menu-checkbox:checked ~ .dropdown-menu {
+    display: block;
+}
+.menu-checkbox:checked ~ .avatar-trigger .avatar-circle {
+    box-shadow: 0 0 10px var(--teal-button);
+    background-color: #2980b9;
+}
+/* --- DASHBOARD DYNAMIQUE --- */
+.dashboard-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.hero-header {
+    margin-bottom: 40px;
+}
+
+.hero-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(to right, #ffffff, var(--teal-button));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+/* Grille et Cartes de Statistiques */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-line);
+    border-radius: 20px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* État : Warning (Ex: Réservations en attente) */
+.stat-card.warning-card {
+    border-left: 5px solid #f1c40f;
+    background: rgba(241, 196, 15, 0.05);
+}
+
+/* État : Danger (Ex: Incidents critiques) */
+.stat-card.danger-card {
+    border-left: 5px solid #e74c3c;
+    background: rgba(231, 76, 60, 0.08);
+    animation: pulse-red 2s infinite;
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stat-label {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+}
+
+/* Barres de Progression */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 15px 0 10px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: var(--teal-button);
+    box-shadow: 0 0 10px var(--teal-button);
+    transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Tableau d'Activité Récente */
+.activity-section {
+    margin-top: 50px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-line);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.activity-table th {
+    text-align: left;
+    color: var(--text-gray);
+    padding: 15px;
+    border-bottom: 1px solid var(--border-line);
+    font-size: 0.9rem;
+}
+
+.activity-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+}
+
+/* Badges de Statut pour le Tableau */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.status-badge.approved { background: rgba(86, 179, 163, 0.2); color: #56b3a3; }
+.status-badge.pending { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+.status-badge.refused { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+/* Animations */
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* --- CARTES AVEC GRADIENT TOURNANT --- */
+.stat-card {
+    position: relative;
+    background: #07071f; /* Fond interne de la carte */
+    border-radius: 20px;
+    padding: 3px; /* Épaisseur de la bordure dégradée */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+    cursor: pointer;
+}
+
+/* L'élément qui crée le dégradé tournant */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: conic-gradient(
+        transparent,
+        var(--teal-button),
+        #3498db,
+        transparent 30%
+    );
+    animation: rotateGradient 4s linear infinite;
+}
+
+/* Cache le centre du dégradé pour ne laisser que la bordure */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    inset: 3px; /* Doit correspondre au padding du .stat-card */
+    background: #07071f;
+    border-radius: 18px;
+    z-index: 1;
+}
+
+/* Contenu réel de la carte (au-dessus du dégradé) */
+.stat-content {
+    position: relative;
+    z-index: 2;
+    padding: 25px;
+    width: 100%;
+}
+
+/* --- EFFET DE MOUVEMENT AU SURVOL --- */
+.stat-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Accélère la rotation au survol */
+.stat-card:hover::before {
+    animation-duration: 1.5s;
+}
+
+/* Couleurs spécifiques par type de carte */
+.stat-card.warning-card::before {
+    background: conic-gradient(transparent, #f1c40f, #e67e22, transparent 30%);
+}
+
+.stat-card.danger-card::before {
+    background: conic-gradient(transparent, #e74c3c, #c0392b, transparent 30%);
+}
+
+/* Animation de rotation */
+@keyframes rotateGradient {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Correction pour les valeurs de texte */
+.stat-value {
+    position: relative;
+    z-index: 2;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+/* --- HERO CARDS DYNAMIQUES --- */
+.stat-card {
+    position: relative;
+    background: #0a0a2e;
+    border-radius: 15px;
+    padding: 3px; /* Épaisseur de la bordure */
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Bordure dégradée tournante */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: conic-gradient(transparent, var(--teal-button), #3498db, transparent 30%);
+    animation: rotate 4s linear infinite;
+    top: -25%; left: -25%;
+}
+
+.stat-card::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: #0a0a2e;
+    border-radius: 13px;
+    z-index: 1;
+}
+
+.stat-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+}
+
+/* Hover Effects */
+.stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.stat-card:hover::before { animation-duration: 2s; }
+
+/* Animation */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Ressources Preview */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px 0 20px;
+}
+
+.voir-plus-link {
+    color: var(--teal-button);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+/* --- ANIMATION DE BORDURE TOURNANTE (CIRCLING GRADIENT) --- */
+.stat-card {
+    position: relative;
+    background: #0a0a2e;
+    border-radius: 20px;
+    padding: 3px; /* Épaisseur de la bordure */
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+}
+
+/* Le dégradé qui tourne derrière la carte */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: conic-gradient(transparent, var(--teal-button), #3498db, transparent 30%);
+    animation: rotateBorder 4s linear infinite;
+    top: -25%; left: -25%;
+}
+
+/* Fond interne pour créer l'effet de bordure */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: #05051a;
+    border-radius: 18px;
+    z-index: 1;
+}
+
+.stat-content {
+    position: relative;
+    z-index: 2;
+    padding: 25px;
+    width: 100%;
+}
+
+/* --- EFFETS AU SURVOL (MOVE ON HOVER) --- */
+.stat-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+.stat-card:hover::before {
+    animation-duration: 1.5s; /* Accélère la rotation au survol */
+}
+
+/* Couleurs dynamiques selon l'état */
+.stat-card.warning-card::before { background: conic-gradient(transparent, #f1c40f, #e67e22, transparent 30%); }
+.stat-card.danger-card::before { background: conic-gradient(transparent, #e74c3c, #c0392b, transparent 30%); }
+
+@keyframes rotateBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- LAYOUT DU CATALOGUE --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px 0 25px;
+}
+
+.resource-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-line);
+    padding: 20px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.resource-card:hover {
+    border-color: var(--teal-button);
+}
+
+.voir-plus-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--teal-button);
+    text-decoration: none;
+    font-weight: bold;
+}
+/* --- SECTION MATÉRIEL --- */
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.material-mini-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-line);
+}
+
+.material-name { color: var(--text-gray); font-size: 0.9rem; }
+.material-count { color: var(--teal-button); font-weight: bold; font-size: 1.2rem; }
+
+/* --- PUBLICATIONS --- */
+.main-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.pub-card {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border-left: 3px solid var(--teal-button);
+}
+
+.pub-tag {
+    background: var(--teal-button);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.pub-date { color: var(--text-gray); font-size: 0.8rem; }
+
+/* --- EFFET BORDURE TOURNANTE --- */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    width: 150%; height: 150%;
+    background: conic-gradient(transparent, var(--teal-button), #3498db, transparent 30%);
+    animation: rotate 4s linear infinite;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .main-dashboard-grid { grid-template-columns: 1fr; }
+}

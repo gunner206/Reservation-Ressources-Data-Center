@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('css/style.css')}}"> {{-- Votre CSS externe --}}
   <title>centrum</title>
 </head>
 <body>
@@ -18,13 +18,47 @@
             <a href="/ressources">Ressources</a>
             <a href="/contacts">Contacts</a>
         </nav>
+
+        <div class="auth-section">
+    @auth
+        <div class="user-profile">
+            <input type="checkbox" id="user-menu-toggle" class="menu-checkbox">
+
+            <label for="user-menu-toggle" class="avatar-trigger">
+                <div class="avatar-circle">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+                <span class="user-name-label">{{ Auth::user()->name }}</span>
+            </label>
+            @php
+                $unreadCount = \App\Models\Notification::where('user_id', auth()->id())
+                                ->whereNull('read_at')
+                                ->count();
+            @endphp
+
+            <div class="dropdown-menu">
+                <a href="{{ route('reservations.index') }}">Mes Réservations</a>
+                <a href="{{ route('notifications.index') }}">Notifications
+                    @if($unreadCount > 0)
+                        <span style="background-color: red; color: white; padding: 2px 5px; border-radius: 50%;">{{ $unreadCount }}</span>
+                    @endif
+                </a>
+                <hr>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="logout-btn">Déconnexion</button>
+                </form>
+            </div>
+        </div>
+    @else
         <div class="auth-buttons">
-            <a href="{{ route('login', ['action' => 'signup']) }}" class="btn-signup">
-    Sign up
-</a>
+            <a href="{{ route('login', ['action' => 'signup']) }}" class="btn-signup">Sign up</a>
             <a href="/login" class="btn-login">Login</a>
         </div>
+    @endauth
+</div>
     </header>
+
     <main>
         @yield('content')
     </main>
@@ -36,7 +70,7 @@
        <div class="activitie">
          <h3>Activie</h3>
         <a href="/dashboard">Dashboard</a>
-        <a href="/reservation">Reservation</a>
+        <a href="/reservations">Reservation</a>
         <a href="/ressources">Ressources</a>
 
        </div>
