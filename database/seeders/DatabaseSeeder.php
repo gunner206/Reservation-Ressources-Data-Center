@@ -5,7 +5,8 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB; // 👇 AJOUT IMPORTANT
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -64,24 +65,24 @@ class DatabaseSeeder extends Seeder
         // 2. CRÉATION DES CATÉGORIES
         // --------------------------------------------
         $this->ajouterCategories();
+
+        // --------------------------------------------
+        // 3. CRÉATION DES RESSOURCES (AVEC DESCRIPTIONS)
+        // --------------------------------------------
         $this->ajouterRessources();
     }
     
     /**
-     * Méthode privée pour gérer les catégories
+     * Méthode pour gérer les catégories (Code de Yassine)
      */
     private function ajouterCategories(): void
     {
-        // 👇 J'ai corrigé le nom de la table en minuscules : 'categories'
-        // Vérifier d'abord si la table existe (évite les erreurs si tu n'as pas encore fait la migration categories)
-        if (!\Illuminate\Support\Facades\Schema::hasTable('categories')) {
-            $this->command->warn("⚠️ La table 'categories' n'existe pas encore. Crée la migration d'abord.");
+        if (!Schema::hasTable('categories')) {
+            $this->command->warn("⚠️ La table 'categories' n'existe pas encore.");
             return;
         }
 
-        $count = DB::table('categories')->count();
-        
-        if ($count > 0) {
+        if (DB::table('categories')->count() > 0) {
             $this->command->info("ℹ️ La table categories contient déjà des données.");
             return;
         }
@@ -97,7 +98,7 @@ class DatabaseSeeder extends Seeder
         foreach ($categories as $category) {
             DB::table('categories')->insert([
                 'name' => $category['name'],
-                'icon' => $category['icon'], // Assure-toi que ta migration a bien une colonne 'icon'
+                'icon' => $category['icon'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -105,46 +106,64 @@ class DatabaseSeeder extends Seeder
         
         $this->command->info('✅ 5 catégories créées avec succès !');
     }
+
+    /**
+     * Méthode pour ajouter les ressources avec descriptions détaillées
+     */
     private function ajouterRessources(): void
     {
-        \App\Models\Resource::create([
-            'name' => 'Dell PowerEdge R740',
-            'code' => 'SRV-DELL-01',
-            'category_id' => 1, 
-            'is_active' => true,
-            'specs' => json_encode(['cpu' => 'Intel Xeon', 'ram' => '128GB'])
-        ]);
+        if (!Schema::hasTable('resources')) return;
 
-        \App\Models\Resource::create([
-            'name' => 'Baie NetApp AFF A400',
-            'code' => 'STO-NET-01',
-            'category_id' => 2,
-            'is_active' => true,
-            'specs' => json_encode(['capacity' => '20TB', 'type' => 'SSD'])
-        ]);
+        if (DB::table('resources')->count() > 0) {
+            $this->command->info("ℹ️ La table resources contient déjà des données.");
+            return;
+        }
 
-        \App\Models\Resource::create([
-            'name' => 'Cisco Catalyst 9300',
-            'code' => 'SW-CIS-01',
-            'category_id' => 3,
-            'is_active' => true,
-            'specs' => json_encode(['ports' => '48', 'speed' => '10Gbps'])
-        ]);
+        $resources = [
+            [
+                'name' => 'Dell PowerEdge R740',
+                'code' => 'SRV-DELL-01',
+                'category_id' => 1,
+                'description' => 'Serveur rack haute performance idéal pour la virtualisation et les bases de données.'
+            ],
+            [
+                'name' => 'Baie NetApp AFF A400',
+                'code' => 'STO-NET-01',
+                'category_id' => 2,
+                'description' => 'Système de stockage All-Flash ultra-rapide pour une gestion efficace des données.'
+            ],
+            [
+                'name' => 'Cisco Catalyst 9300',
+                'code' => 'SW-CIS-01',
+                'category_id' => 3,
+                'description' => 'Switch réseau intelligent 48 ports avec support PoE+ pour une infrastructure moderne.'
+            ],
+            [
+                'name' => 'Firewall FortiGate 100F',
+                'code' => 'FW-FORT-01',
+                'category_id' => 4,
+                'description' => 'Sécurité périmétrique avancée avec inspection SSL et protection contre les menaces.'
+            ],
+            [
+                'name' => 'Cluster VMware ESXi',
+                'code' => 'VIRT-VMW-01',
+                'category_id' => 5,
+                'description' => 'Environnement cloud privé permettant le déploiement flexible de machines virtuelles.'
+            ],
+        ];
 
-        \App\Models\Resource::create([
-            'name' => 'Firewall FortiGate 100F',
-            'code' => 'FW-FORT-01',
-            'category_id' => 4,
-            'is_active' => true,
-            'specs' => json_encode(['throughput' => '20Gbps', 'vpn' => 'SSL/IPsec'])
-        ]);
+        foreach ($resources as $res) {
+            DB::table('resources')->insert([
+                'name' => $res['name'],
+                'code' => $res['code'],
+                'category_id' => $res['category_id'],
+                'description' => $res['description'],
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
-        \App\Models\Resource::create([
-            'name' => 'Cluster VMware ESXi',
-            'code' => 'VIRT-VMW-01',
-            'category_id' => 5,
-            'is_active' => true,
-            'specs' => json_encode(['nodes' => '3', 'hypervisor' => 'vSphere 8'])
-        ]);
+        $this->command->info('✅ 5 ressources avec descriptions ajoutées avec succès !');
     }
 }

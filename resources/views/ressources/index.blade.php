@@ -16,18 +16,24 @@
         /* Boutons */
         .btn { padding: 10px 15px; color: white; text-decoration: none; border-radius: 5px; display: inline-block; border: none; cursor: pointer; }
         .btn-add { background: #28a745; margin-bottom: 20px; }
-        .btn-small { padding: 5px 10px; font-size: 13px; margin-right: 5px; }
+        .btn-small { padding: 5px 10px; font-size: 13px; margin-right: 5px; white-space: nowrap; }
         
-        .btn-view { background: #17a2b8; }      /* Bleu info */
-        .btn-edit { background: #ffc107; color: #000; } /* Jaune */
-        .btn-delete { background: #dc3545; }    /* Rouge */
-        .btn-reserve { background: #6f42c1; }   /* Violet (Pour Yassine) */
-        .btn-secondary { background: #6c757d; margin-top: 20px; } /* Gris */
+        .btn-view { background: #17a2b8; }
+        .btn-edit { background: #ffc107; color: #000; }
+        .btn-delete { background: #dc3545; }
+        .btn-reserve { background: #6f42c1; }
+        .btn-secondary { background: #6c757d; margin-top: 20px; }
 
         .alert { background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #c3e6cb; }
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
         .badge-success { background: #d4edda; color: #155724; }
         .badge-danger { background: #f8d7da; color: #721c24; }
+        
+        /* Style corrigé pour la description (Texte complet) */
+        .desc-cell { color: #555; font-size: 0.9em; min-width: 200px; line-height: 1.4; }
+        
+        /* Empêche les boutons de se casser sur deux lignes */
+        .actions-cell { white-space: nowrap; width: 1%; }
     </style>
 </head>
 <body>
@@ -51,6 +57,7 @@
                 <th>ID</th>
                 <th>Nom</th>
                 <th>Catégorie</th>
+                <th>Description</th> 
                 <th>Statut</th>
                 @auth 
                     @if(auth()->user()->role !== 'guest') <th>Actions</th> @endif 
@@ -63,6 +70,12 @@
                 <td>{{ $ressource->id }}</td>
                 <td><strong>{{ $ressource->name }}</strong></td>
                 <td>{{ $ressource->category->name ?? 'N/A' }}</td>
+                
+                {{-- Affichage de la description COMPLETE --}}
+                <td class="desc-cell">
+                    {{ $ressource->description }}
+                </td>
+
                 <td>
                     @if($ressource->is_active)
                         <span class="badge badge-success">Disponible</span>
@@ -73,11 +86,11 @@
 
                 @auth
                     @if(auth()->user()->role !== 'guest')
-                    <td>
-                        {{-- Bouton VOIR (Pour tous les connectés) --}}
+                    <td class="actions-cell">
+                        {{-- Bouton VOIR --}}
                         <a href="{{ route('ressources.show', $ressource->id) }}" class="btn btn-small btn-view">Détails</a>
 
-                        {{-- BOUTON RÉSERVER (Uniquement pour Internal) --}}
+                        {{-- BOUTON RÉSERVER --}}
                         @if(auth()->user()->role === 'internal')
                             @if($ressource->is_active)
                                 <a href="{{ route('reservations.create', ['ressource_id' => $ressource->id]) }}" class="btn btn-small btn-reserve">Réserver</a>
@@ -86,7 +99,7 @@
                             @endif
                         @endif
 
-                        {{-- BOUTONS MODIFIER/SUPPRIMER (Admin & Manager seulement) --}}
+                        {{-- BOUTONS MODIFIER/SUPPRIMER --}}
                         @if(auth()->user()->role === 'admin' || (auth()->user()->role === 'manager' && $ressource->manager_id == auth()->id()))
                             <a href="{{ route('ressources.edit', $ressource->id) }}" class="btn btn-small btn-edit">Modifier</a>
                         @endif
@@ -103,13 +116,12 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" style="text-align:center;">Aucune ressource trouvée.</td>
+                <td colspan="6" style="text-align:center;">Aucune ressource trouvée.</td>
             </tr>
             @endforelse
         </tbody>
     </table>
 
-    {{-- 2. Boutons sous le tableau --}}
     <div style="margin-top: 20px;">
         @auth
             @if(auth()->user()->role === 'internal')
