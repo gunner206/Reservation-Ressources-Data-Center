@@ -128,7 +128,6 @@ Route::get('/test-simple', fn() => "TEST SIMPLE - OK");
         
         return view('notifications.index', compact('notifications'));
     })->name('notifications.index');
-});
 
 // --------------------
 // ZONE DE TEST & DIAGNOSTIC
