@@ -1,66 +1,30 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Gestion du Parc - Ressources</title>
-    <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background-color: #f8f9fa; color: #333; }
-        h1 { color: #2c3e50; }
-        
-        /* Table Styles */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background: #f2f2f2; font-weight: bold; }
-        tr:hover { background-color: #f1f1f1; }
+@extends('layout')
 
-        /* Boutons */
-        .btn { padding: 10px 15px; color: white; text-decoration: none; border-radius: 5px; display: inline-block; border: none; cursor: pointer; }
-        .btn-add { background: #28a745; margin-bottom: 20px; }
-        .btn-small { padding: 5px 10px; font-size: 13px; margin-right: 5px; white-space: nowrap; }
-        
-        .btn-view { background: #17a2b8; }
-        .btn-edit { background: #ffc107; color: #000; }
-        .btn-delete { background: #dc3545; }
-        .btn-reserve { background: #6f42c1; }
-        .btn-secondary { background: #6c757d; margin-top: 20px; }
-
-        .alert { background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #c3e6cb; }
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .badge-success { background: #d4edda; color: #155724; }
-        .badge-danger { background: #f8d7da; color: #721c24; }
-        
-        /* Style corrigé pour la description (Texte complet) */
-        .desc-cell { color: #555; font-size: 0.9em; min-width: 200px; line-height: 1.4; }
-        
-        /* Empêche les boutons de se casser sur deux lignes */
-        .actions-cell { white-space: nowrap; width: 1%; }
-    </style>
-</head>
-<body>
+@section('content')
 
     <h1>Liste des Ressources du Parc</h1>
-    
+
     @if(session('success'))
         <div class="alert">{{ session('success') }}</div>
     @endif
-    
+
     {{-- 1. Bouton Ajouter (Visible uniquement par Admin et Manager) --}}
     @auth
         @if(auth()->user()->role === 'admin' || auth()->user()->role === 'manager')
             <a href="{{ route('ressources.create') }}" class="btn btn-add">+ Ajouter une ressource</a>
         @endif
     @endauth
-
-    <table>
+    <div class="table-container">
+    <table class="data-table">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
                 <th>Catégorie</th>
-                <th>Description</th> 
+                <th>Description</th>
                 <th>Statut</th>
-                @auth 
-                    @if(auth()->user()->role !== 'guest') <th>Actions</th> @endif 
+                @auth
+                    @if(auth()->user()->role !== 'guest') <th>Actions</th> @endif
                 @endauth
             </tr>
         </thead>
@@ -70,7 +34,7 @@
                 <td>{{ $ressource->id }}</td>
                 <td><strong>{{ $ressource->name }}</strong></td>
                 <td>{{ $ressource->category->name ?? 'N/A' }}</td>
-                
+
                 {{-- Affichage de la description COMPLETE --}}
                 <td class="desc-cell">
                     {{ $ressource->description }}
@@ -121,6 +85,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
     <div style="margin-top: 20px;">
         @auth
@@ -134,5 +99,4 @@
         @endguest
     </div>
 
-</body>
-</html>
+@endsection

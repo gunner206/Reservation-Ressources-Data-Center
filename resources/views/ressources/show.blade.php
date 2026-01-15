@@ -1,43 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Détails de la ressource</title>
-    <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background-color: #f4f7f6; color: #333; }
-        h1 { color: #2c3e50; }
-        .details-card { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            max-width: 650px;
-        }
-        .description-box {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-left: 4px solid #17a2b8;
-            margin-bottom: 20px;
-            font-style: italic;
-            line-height: 1.5;
-        }
-        .spec-item { margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-        .spec-label { font-weight: bold; color: #555; width: 120px; display: inline-block; }
-        .status-active { color: #28a745; font-weight: bold; }
-        .status-inactive { color: #dc3545; font-weight: bold; }
-        .actions { margin-top: 25px; display: flex; align-items: center; }
-        .btn-back { color: #6c757d; text-decoration: none; }
-        .btn-back:hover { text-decoration: underline; }
-        .btn-edit { 
-            background: #ffc107; color: black; padding: 10px 20px; 
-            text-decoration: none; border-radius: 4px; margin-left: auto;
-            font-weight: bold;
-        }
-        .btn-edit:hover { background: #e0a800; }
-    </style>
-</head>
-<body>
+@extends('layout')
+
+@section('content')
     <h1>Fiche Technique : {{ $ressource->name }}</h1>
-    
+
     <div class="details-card">
         @php
             // On décode le JSON des spécifications
@@ -52,10 +17,6 @@
 
         <div class="spec-item">
             <span class="spec-label">Catégorie:</span> {{ $ressource->category->name ?? 'N/A' }}
-        </div>
-        
-        <div class="spec-item">
-            <span class="spec-label">Code:</span> <code>{{ $ressource->code }}</code>
         </div>
 
         {{-- Affichage des données issues du JSON --}}
@@ -73,7 +34,7 @@
         </div>
 
         <div class="spec-item">
-            <span class="spec-label">Statut:</span> 
+            <span class="spec-label">Statut:</span>
             <span class="{{ $ressource->is_active ? 'status-active' : 'status-inactive' }}">
                 {{ $ressource->is_active ? '● Opérationnel' : '○ Hors-service' }}
             </span>
@@ -90,5 +51,4 @@
             @endauth
         </div>
     </div>
-</body>
-</html>
+@endsection
