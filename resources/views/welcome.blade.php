@@ -3,7 +3,7 @@
         <h1>Gérez vos ressources Data Center en temps réel</h1>
         <p>Accédez à une infrastructure de pointe : serveurs physiques, machines virtuelles et stockage réseau haute performance.</p>
         <div class="hero-actions">
-            <a href="/register" class="btn-signup">Demander un compte</a>
+            <a href="{{ route('login', ['action' => 'signup']) }}" class="btn-signup">Demander un compte</a>
             <a href="#resources" class="btn-outline">Voir le catalogue</a>
         </div>
     </section>

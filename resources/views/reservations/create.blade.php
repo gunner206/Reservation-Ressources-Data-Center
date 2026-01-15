@@ -2,19 +2,19 @@
 
 @section('content')
 <div class="split-container">
-    
+
     <div class="form-section">
         <div class="card">
             <h3>📝 Réserver une Ressource</h3>
-            
+
             @if ($errors->any())
                 <div class="alert-error">
                     <ul>@foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach</ul>
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('reservations.store') }}">
-                @csrf 
+            <form class="data-form" method="POST" action="{{ route('reservations.store') }}">
+                @csrf
 
                 <div class="form-group">
                     <label>Choisir la ressource :</label>
@@ -53,14 +53,14 @@
         </div>
     </div>
 
-    <div class="list-section">
+    <div class="table-container">
         <div class="card">
             <div class="list-header">
                 <h3>🚦 État des Ressources (Aujourd'hui)</h3>
                 <span class="date-badge">{{ now()->format('d/m/Y') }}</span>
             </div>
 
-            <table class="availability-table">
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>Ressource</th>
@@ -78,7 +78,7 @@
                         @endphp
                         <tr>
                             <td style="font-weight: bold;">{{ $resource->name }}</td>
-                            
+
                             <td>
                                 @if($isOccupiedNow)
                                     <span class="badge-status badge-busy">Occupé</span>
@@ -108,75 +108,5 @@
     </div>
 
 </div>
-<style>
-    /* Layout Global */
-.split-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 20px auto;
-    align-items: flex-start;
-}
-.form-section { flex: 1; min-width: 300px; }
-.list-section { flex: 2; min-width: 400px; }
 
-/* Style Card */
-.card {
-    color: black;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-/* Formulaire */
-.form-control {
-    width: 100%; padding: 10px; margin-bottom: 15px;
-    border: 1px solid #ddd; border-radius: 5px;
-}
-.btn-submit {
-    width: 100%; background: #007bff; color: white;
-    padding: 12px; border: none; border-radius: 5px;
-    font-weight: bold; cursor: pointer;
-}
-.btn-submit:hover { background: #0056b3; }
-
-/* --- TABLEAU DE DISPONIBILITÉ --- */
-.list-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 15px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;
-}
-.date-badge {
-    background: #e9ecef; color: #495057; padding: 5px 10px;
-    border-radius: 20px; font-size: 0.9em; font-weight: bold;
-}
-
-.availability-table {
-    width: 100%; border-collapse: collapse;
-}
-.availability-table th {
-    text-align: left; padding: 10px; color: #6c757d; font-size: 0.85em;
-    text-transform: uppercase; border-bottom: 1px solid #eee;
-}
-.availability-table td {
-    padding: 12px 10px; border-bottom: 1px solid #f8f9fa; vertical-align: middle;
-}
-
-/* Badges État */
-.badge-status {
-    padding: 5px 10px; border-radius: 5px; font-size: 0.8em; font-weight: bold;
-    display: inline-block; min-width: 60px; text-align: center;
-}
-.badge-free { background-color: #d4edda; color: #155724; } /* Vert */
-.badge-busy { background-color: #f8d7da; color: #721c24; } /* Rouge */
-
-/* Liste des Créneaux (Tags gris) */
-.slots-list { display: flex; flex-wrap: wrap; gap: 5px; }
-.slot-tag {
-    background: #f1f3f5; color: #333; padding: 3px 8px;
-    border-radius: 4px; font-size: 0.85em; border: 1px solid #e9ecef;
-}
-.text-muted { color: #adb5bd; font-style: italic; font-size: 0.9em; }
-</style>   
 @endsection

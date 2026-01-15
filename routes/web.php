@@ -120,12 +120,12 @@ Route::get('/test-simple', fn() => "TEST SIMPLE - OK");
     $notifications = \App\Models\Notification::where('user_id', auth()->id())
                         ->orderBy('created_at', 'desc')
                         ->get();
-    
+
     // Marquer tout comme lu dès qu'on ouvre la page
     \App\Models\Notification::where('user_id', auth()->id())
         ->whereNull('read_at')
         ->update(['read_at' => now()]);
-        
+
         return view('notifications.index', compact('notifications'));
     })->name('notifications.index');
 
@@ -143,4 +143,3 @@ Route::get('/test-db', function() {
         ]
     ];
 });
-
