@@ -40,7 +40,7 @@
             </span>
         </div>
 
-        <div class="actions">
+        <div class="actions">               
             <a href="{{ route('ressources.index') }}" class="btn-back">← Retour à la liste</a>
 
             {{-- SEULS ADMIN ET MANAGER VOIENT LE BOUTON MODIFIER --}}

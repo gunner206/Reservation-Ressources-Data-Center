@@ -596,7 +596,7 @@ while keeping the css property of gradiant color rotation */
     width: 100%;
     padding: 12px 15px;
     margin-bottom: 20px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(51, 48, 48, 0.3);
     border: 1px solid var(--border);
     border-radius: 8px;
     color: white;
