@@ -42,9 +42,9 @@
 
                 <td>
                     @if($ressource->is_active)
-                        <span class="badge badge-success">Disponible</span>
+                        <span>Disponible</span>
                     @else
-                        <span class="badge badge-danger">Maintenance</span>
+                        <span>Maintenance</span>
                     @endif
                 </td>
 
