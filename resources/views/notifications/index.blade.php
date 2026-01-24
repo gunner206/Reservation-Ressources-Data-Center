@@ -39,32 +39,19 @@
     @else
         <ul style="list-style: none; padding: 0;">
             @foreach($notifications as $notif)
-                
-                {{-- 
-                   CORRECTION : Au lieu de mettre de la logique dans 'style', 
-                   on ajoute simplement une classe CSS (is-read ou is-unread) 
-                --}}
-                <li class="notif-item {{ $notif->is_read ? 'is-read' : 'is-unread' }}">
-                    
-                    <div style="display: flex; justify-content: space-between;">
-                        <strong style="color: white; font-size: 1.1em;">
+            <div>
+                    <li style="background: #fff; border-bottom: 1px solid #ddd; padding: 15px; {{ $notif->read_at ? 'opacity: 0.7;' : 'border-left: 4px solid #007bff;' }}">
+                        
+                        <strong style="color: black;font-size: 1.1em;">
                             {{ $notif->data['message'] ?? 'Notification système' }}
                         </strong>
-                        
-                        {{-- Badge 'Nouveau' si non lu --}}
-                        @if(!$notif->is_read)
-                            <span style="font-size: 0.8em; background: #e53e3e; color: white; padding: 2px 8px; border-radius: 4px; height: fit-content;">
-                                Nouveau
-                            </span>
-                        @endif
-                    </div>
 
-                    <div style="margin-top: 5px;">
-                        <small style="color: #a0aec0;">
-                            📅 Reçu le {{ $notif->created_at->format('d/m/Y à H:i') }}
+                        <br>
+                        <small style="color: grey;">
+                            Reçu le {{ $notif->created_at->format('d/m/Y à H:i') }}
                         </small>
-                    </div>
-                </li>
+                    </li>
+            </div>
             @endforeach
         </ul>
     @endif

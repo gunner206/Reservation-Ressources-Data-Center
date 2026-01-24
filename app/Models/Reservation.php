@@ -19,8 +19,8 @@ class Reservation extends Model
         'admin_note'
     ];
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
     // see if the resource is Available in this period
     public static function isAvailable($resourceId, $start, $end, $ignoreId = null)

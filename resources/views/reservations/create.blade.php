@@ -19,13 +19,25 @@
                 <div class="form-group">
                     <label>Choisir la ressource :</label>
                     <select name="resource_id" required class="form-control">
+                        @php
+                            $value = 0;
+                            if (isset($_GET['ressource_id'])){
+                                $value = $_GET['ressource_id'];
+                            }
+                        @endphp
                         <option value="" disabled selected>-- Sélectionner --</option>
                         @foreach($categories as $category)
                             <optgroup label="{{ $category->name }}">
                                 @foreach ($category->resources as $resource)
-                                    <option value="{{ $resource->id }}" {{ old('resource_id') == $resource->id ? 'selected' : ''}}>
-                                        {{ $resource->name }}
-                                    </option>
+                                    @if ($value != 0 && $value == $resource->id )
+                                        <option selected value="{{ $resource->id }}" {{ old('resource_id') == $resource->id ? 'selected' : ''}}>
+                                            {{ $resource->name }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $resource->id }}" {{ old('resource_id') == $resource->id ? 'selected' : ''}}>
+                                            {{ $resource->name }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </optgroup>
                         @endforeach
@@ -56,7 +68,7 @@
     <div class="table-container">
         <div class="card">
             <div class="list-header">
-                <h3>🚦 État des Ressources (Aujourd'hui)</h3>
+                <h3> État des Ressources (Aujourd'hui)</h3>
                 <span class="date-badge">{{ now()->format('d/m/Y') }}</span>
             </div>
 
@@ -71,7 +83,6 @@
                 <tbody>
                     @foreach($resourcesList as $resource)
                         @php
-                            // On vérifie si la ressource est occupée "maintenant"
                             $isOccupiedNow = $resource->reservations->contains(function ($res) {
                                 return now()->between($res->start_date, $res->end_date);
                             });

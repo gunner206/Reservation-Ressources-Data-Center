@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Resource;
+use App\Models\Reservation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // --------------------------------------------
         
         // 1. Chaimae (Admin)
-        User::create([
+        $admin = User::create([
             'name' => 'Chaimae',
             'email' => 'chaimae@centrum.ma', // Email vu dans ta capture
             'password' => Hash::make('password123'),
@@ -60,7 +62,6 @@ class DatabaseSeeder extends Seeder
             'github_url' => 'https://github.com/gunner206',
         ]);
 
-        // 4. Houssam (Manager / Technicien)
         User::create([
             'name' => 'Houssam',
             'email' => 'houssam@centrum.ma',
@@ -83,6 +84,16 @@ class DatabaseSeeder extends Seeder
             'department' => null,
         ]);
 
+        $student = User::create([
+            'name' => 'Etudiant',
+            'email' => 'etudiant@gmail.com',
+            'password' => Hash::make('password123'),
+            'role' => 'internal',
+            'status' => 'active',
+            'bio' => 'Etudiant FSTT',
+            'department' => null
+        ]);
+
         
         // --------------------------------------------
         // 2. CRÉATION DES CATÉGORIES
@@ -93,6 +104,8 @@ class DatabaseSeeder extends Seeder
         // 3. CRÉATION DES RESSOURCES
         // --------------------------------------------
         $this->ajouterRessources();
+
+        $this->ajouterReservations($admin, $student);
     }
     
     /**
@@ -134,31 +147,30 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Dell PowerEdge R740',
                 'code' => 'SRV-DELL-01',
                 'category_id' => 1,
-                'description' => 'Serveur rack haute performance idéal pour la virtualisation.'
-            ],
+                'description' => 'Serveur rack haute performance idéal pour la virtualisation et les bases de données.'            ],
             [
                 'name' => 'Baie NetApp AFF A400',
                 'code' => 'STO-NET-01',
                 'category_id' => 2,
-                'description' => 'Système de stockage All-Flash ultra-rapide.'
+                'description' => 'Système de stockage All-Flash ultra-rapide pour une gestion efficace des données.'
             ],
             [
                 'name' => 'Cisco Catalyst 9300',
                 'code' => 'SW-CIS-01',
                 'category_id' => 3,
-                'description' => 'Switch réseau intelligent 48 ports.'
+                'description' => 'Switch réseau intelligent 48 ports avec support PoE+ pour une infrastructure moderne.'
             ],
             [
                 'name' => 'Firewall FortiGate 100F',
                 'code' => 'FW-FORT-01',
                 'category_id' => 4,
-                'description' => 'Sécurité périmétrique avancée.'
+                'description' => 'Sécurité périmétrique avancée avec inspection SSL et protection contre les menaces.'
             ],
             [
                 'name' => 'Cluster VMware ESXi',
                 'code' => 'VIRT-VMW-01',
                 'category_id' => 5,
-                'description' => 'Environnement cloud privé.'
+                'description' => 'Environnement cloud privé permettant le déploiement flexible de machines virtuelles.'
             ],
         ];
 
@@ -171,6 +183,73 @@ class DatabaseSeeder extends Seeder
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
+            ]);
+        }
+    }
+
+    private function ajouterReservations($admin, $student): void
+    {
+        if (!Schema::hasTable('reservations')) return;
+        if (DB::table('reservations')->count() > 0) return;
+
+        $serveur = Resource::where('name', 'Dell PowerEdge R740')->first();
+        $stock = Resource::where('name', 'Baie NetApp AFF A400')->first();
+
+        if (!$serveur || !$stock) return;
+
+        $reservations = [
+            // CAS 1 : Réservation EN COURS (Pour tester l'état "Occupé")
+            // De 8h ce matin à 18h ce soir
+            [
+                'user_id' => $admin->id,
+                'resource_id' => $serveur->id,
+                'start_date' => now()->setHour(8)->setMinute(0),
+                'end_date' => now()->setHour(18)->setMinute(0),
+                'status' => 'approved', // Déjà validé
+                'type' => 'maintenance',
+                'justification' => 'Maintenance mensuelle planifiée',
+                'validated_by' => $admin->id
+            ],
+
+        // CAS 2 : Réservation EN ATTENTE (Pour tester la validation Manager)
+        // Pour demain
+            [
+                'user_id' => $student->id,
+                'resource_id' => $stock->id,
+                'start_date' => now()->addDay()->setHour(10)->setMinute(0),
+                'end_date' => now()->addDay()->setHour(12)->setMinute(0),
+                'status' => 'pending', // En attente
+                'type' => 'standard',
+                'validated_by' => null,
+                'justification' => 'Besoin pour le projet de fin d\'année',
+            ],
+
+        // CAS 3 : Réservation FUTURE VALIDÉE (Pour le planning)
+        // Après-demain
+            [
+                'user_id' => $student->id,
+                'resource_id' => $serveur->id,
+                'start_date' => now()->addDays(2)->setHour(14)->setMinute(0),
+                'end_date' => now()->addDays(2)->setHour(16)->setMinute(0),
+                'status' => 'approved',
+                'type' => 'standard',
+                'justification' => 'TP Intelligence Artificielle',
+                'validated_by' => $admin->id
+            ]
+        ];
+
+        foreach ($reservations as $res) {
+            DB::table('reservations')->insert([
+                'user_id' => $res['user_id'],
+                'resource_id' => $res['resource_id'],
+                'start_date' => $res['start_date'],
+                'end_date' => $res['end_date'],
+                'status' => $res['status'],
+                'type' => $res['type'],
+                'justification' => $res['justification'],
+                'validated_by' => $res['validated_by'],
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
         }
     }
