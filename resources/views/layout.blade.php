@@ -16,7 +16,7 @@
             <a href="/dashboard">Dashboard</a>
             <a href="/reservations">Reservation</a>
             <a href="/ressources">Ressources</a>
-            <a href="/contacts">Contacts</a>
+           <a href="{{ route('about') }}" class="nav-link">Contacts</a>
         </nav>
 
         <div class="auth-section">

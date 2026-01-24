@@ -18,6 +18,7 @@ return new class extends Migration
             // Informations personnelles
             $table->string('name', 100);
             $table->string('email', 255)->unique();
+            $table->string('cne')->nullable()->unique();
             $table->string('password');
             
             // Rôle et statut

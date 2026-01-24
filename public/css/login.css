@@ -26,7 +26,7 @@ body {
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 600px; 
 }
 
 .container p {
@@ -224,4 +224,243 @@ body {
     width: 100%;
     margin-bottom: 15px;
     text-align: center;
+}
+/* --- CORRECTION LARGEUR & POSITION OEIL --- */
+.input-group {
+    position: relative;
+    width: 100%;          /* Force la div à prendre toute la largeur */
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+/* On cible l'input à l'intérieur du groupe */
+.input-group input {
+    width: 100% !important; /* Force l'input à 100% comme les autres */
+    padding: 10px 15px;
+    padding-right: 45px;    /* Laisse de la place pour l'icône à droite */
+    background-color: #eee;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    box-sizing: border-box; /* Important pour que le padding ne casse pas la largeur */
+}
+
+/* Centrage parfait de l'œil */
+.input-group i {
+    position: absolute;
+    right: 15px;            /* Décalé un peu de la droite */
+    top: 50%;               /* Au milieu verticalement */
+    transform: translateY(-50%); /* L'astuce magique pour centrer pile au milieu */
+    cursor: pointer;
+    color: #888;
+    font-size: 16px;        /* Taille de l'icône */
+    z-index: 10;            /* S'assure que l'icône est au-dessus du texte */
+}
+/* Force le logo Google à rester petit, peu importe les autres règles */
+.google-btn img {
+    width: 25px !important;  /* On force la largeur */
+    height: 25px !important; /* On force la hauteur */
+    margin-right: 10px !important;
+    object-fit: contain;
+}
+
+/* Assure que le bouton lui-même a une taille normale */
+.google-btn {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    margin-top: 10px;
+}
+/* =========================================
+   RESPONSIVE DESIGN (Mobiles & Tablettes)
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    /* 1. La grande boîte devient verticale */
+    .container {
+        background-color: #fff;
+        width: 90%; /* Prend moins de largeur pour laisser une marge */
+        height: auto;
+        min-height: 850px; /* On l'agrandit en hauteur pour tout faire tenir */
+        flex-direction: column; /* Empile les éléments verticalement */
+    }
+
+    /* 2. La partie BLEUE (En-tête) */
+    .toggle-container {
+        width: 100%;          /* Toute la largeur */
+        height: 250px;        /* Hauteur fixe pour le haut */
+        top: 0;
+        left: 0;
+        border-radius: 30px 30px 100px 100px; /* Joli arrondi vers le bas */
+        transform: none !important; /* Annule les déplacements bizarres */
+    }
+
+    .toggle {
+        transform: none !important; /* Annule le glissement horizontal */
+        width: 100%;
+    }
+
+    .toggle-panel {
+        width: 100%;
+        height: 100%;
+        padding: 0 20px;
+        justify-content: center;
+        top: 0;
+        transform: none !important; /* Force le texte à rester visible */
+    }
+
+    /* Cache le texte du panneau qui n'est pas actif pour éviter le désordre */
+    .toggle-left {
+        display: none; /* On simplifie : sur mobile on cache le texte "Welcome Back" quand on est en mode Inscription */
+    }
+    
+    .container.active .toggle-left {
+        display: flex; /* On le réaffiche si nécessaire */
+    }
+    
+    .container.active .toggle-right {
+        display: none;
+    }
+
+    /* 3. La partie BLANCHE (Formulaires) */
+    .form-container {
+        width: 100%;
+        height: auto;
+        top: 260px; /* On le pousse sous la partie bleue */
+        padding: 20px;
+        transition: opacity 0.6s ease-in-out; /* On garde juste le fondu, pas le glissement */
+    }
+
+    .sign-in {
+        top: 260px;
+        width: 100%;
+        left: 0;
+        z-index: 5;
+    }
+    
+    .sign-up {
+        top: 260px;
+        width: 100%;
+        left: 0;
+    }
+
+    /* Ajustements pour que ça rentre mieux sur petit écran */
+    .container p {
+        margin: 10px 0; /* Moins d'espace entre les textes */
+    }
+    
+    .social-icons {
+        margin: 10px 0;
+    }
+}
+
+/* =========================================
+   VERSION MOBILE SECURISÉE (FIX BLANK SCREEN)
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    /* 1. On force la boîte à tout montrer */
+    .container {
+        width: 100%;
+        min-height: 100vh; /* Prend toute la hauteur de l'écran */
+        border-radius: 0;
+        overflow: visible; /* IMPORTANT : Ça empêche de cacher le contenu */
+        position: relative;
+        flex-direction: column;
+    }
+
+    /* 2. On place la partie BLEUE en haut (Fixe) */
+    .toggle-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 220px !important; /* Hauteur fixe pour le haut */
+        border-radius: 0 0 50px 50px; /* Arrondi en bas */
+        z-index: 100; /* Toujours au dessus */
+        transform: none !important; /* On annule les mouvements bizarres */
+    }
+
+    .toggle {
+        transform: none !important;
+        width: 100%;
+        border-radius: 0 0 50px 50px;
+    }
+
+    /* On s'assure que le texte bleu est visible */
+    .toggle-panel {
+        transform: none !important;
+        width: 100%;
+        height: 100%;
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 3. On place les FORMULAIRES en dessous (Blanc) */
+    .form-container {
+        position: absolute;
+        top: 230px !important; /* Juste en dessous de la partie bleue */
+        left: 0;
+        width: 100%;
+        height: auto;
+        padding: 0 20px;
+        transition: none; /* On coupe l'animation pour éviter les bugs */
+        z-index: 50;
+    }
+
+    /* On force l'affichage des formulaires */
+    .sign-in, .sign-up {
+        position: relative; /* Plus de position absolue qui cache tout */
+        width: 100%;
+        left: auto;
+        top: auto;
+        transform: none !important;
+    }
+    
+    /* GESTION DE L'AFFICHAGE (Javascript toggle) */
+    /* Quand on est en mode "Connexion", on cache l'inscription */
+    .container:not(.active) .sign-up {
+        display: none;
+    }
+    .container:not(.active) .sign-in {
+        display: block;
+        opacity: 1;
+        z-index: 5;
+    }
+
+    /* Quand on est en mode "Inscription" (Active), on cache la connexion */
+    .container.active .sign-in {
+        display: none;
+    }
+    .container.active .sign-up {
+        display: block;
+        opacity: 1;
+        z-index: 5;
+        animation: none; /* On enlève l'animation complexe */
+    }
+
+    /* On gère le texte du panneau bleu */
+    .toggle-left {
+        display: none; /* Caché par défaut */
+    }
+    .container.active .toggle-left {
+        display: flex; /* Visible si on est en inscription */
+    }
+    .container.active .toggle-right {
+        display: none;
+    }
 }
