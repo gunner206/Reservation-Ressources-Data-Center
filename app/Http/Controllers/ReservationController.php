@@ -59,7 +59,7 @@ class ReservationController extends Controller
 
         // verifier si le resource est disponible a ca date
         if (!Reservation::isAvailable($request->resource_id, $request->start_date, $request->end_date)){
-            back()->withInput()
+            return back()->withInput()
             ->withErrors(['start_date' => 'Desole, cette resource est deja reserver dans ca date']);
         }
 
@@ -82,6 +82,7 @@ class ReservationController extends Controller
                 'user_id' => $manager->id,
                 'type'    => 'new_request',
                 'data'    => [
+                    // !!! i need to fix the formate
                     'message' => 'Nouvelle demande de ' . auth()->user()->name . ' pour ' . $request->start_date
                 ],
                 'read_at' => null

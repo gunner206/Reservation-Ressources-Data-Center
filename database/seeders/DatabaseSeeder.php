@@ -124,31 +124,40 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Dell PowerEdge R740',
                 'code' => 'SRV-DELL-01',
                 'category_id' => 1,
-                'description' => 'Serveur rack haute performance idéal pour la virtualisation et les bases de données.'
+                'description' => 'Serveur rack haute performance idéal pour la virtualisation et les bases de données.',
+                'is_active' => true
             ],
             [
                 'name' => 'Baie NetApp AFF A400',
                 'code' => 'STO-NET-01',
                 'category_id' => 2,
-                'description' => 'Système de stockage All-Flash ultra-rapide pour une gestion efficace des données.'
+                'description' => 'Système de stockage All-Flash ultra-rapide pour une gestion efficace des données.',
+                'is_active' => true
+
             ],
             [
                 'name' => 'Cisco Catalyst 9300',
                 'code' => 'SW-CIS-01',
                 'category_id' => 3,
-                'description' => 'Switch réseau intelligent 48 ports avec support PoE+ pour une infrastructure moderne.'
+                'description' => 'Switch réseau intelligent 48 ports avec support PoE+ pour une infrastructure moderne.',
+                'is_active' => true
+
             ],
             [
                 'name' => 'Firewall FortiGate 100F',
                 'code' => 'FW-FORT-01',
                 'category_id' => 4,
-                'description' => 'Sécurité périmétrique avancée avec inspection SSL et protection contre les menaces.'
+                'description' => 'Sécurité périmétrique avancée avec inspection SSL et protection contre les menaces.',
+                'is_active' => false
+
             ],
             [
                 'name' => 'Cluster VMware ESXi',
                 'code' => 'VIRT-VMW-01',
                 'category_id' => 5,
-                'description' => 'Environnement cloud privé permettant le déploiement flexible de machines virtuelles.'
+                'description' => 'Environnement cloud privé permettant le déploiement flexible de machines virtuelles.',
+                'is_active' => true
+
             ],
         ];
 

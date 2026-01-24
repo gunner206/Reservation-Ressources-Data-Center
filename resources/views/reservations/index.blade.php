@@ -2,19 +2,17 @@
 @section('content')
 <div class="dashboard-container">
     <div class="header-flex">
-        <h2>
-            @if(auth()->user()->role === 'manager' || auth()->user()->role === 'admin')
-                Gestion des Demandes
-            @else
-                Mes Réservations
-            @endif
-        </h2>
-        
-        <a href="{{ route('reservations.create') }}" class="btn-create">
-            + Nouvelle Réservation
-        </a>
+        @if(auth()->user()->role === 'manager' || auth()->user()->role === 'admin')
+            <h2>Gestion des Demandes</h2>
+        @else
+            <h2>Mes Réservations</h2>
+            <br>
+            <a href="{{ route('reservations.create') }}" class="btn-edit">
+                + Nouvelle Réservation
+            </a>
+        @endif
     </div>
-
+    <br>
     <table class="data-table">
         <thead>
             <tr>
@@ -62,16 +60,16 @@
                             
                             <form action="{{ route('reservations.approve', $res->id) }}" method="POST">
                                 @csrf @method('PATCH')
-                                <button type="submit" class="btn-icon btn-approve" title="Valider">✔</button>
+                                <button type="submit" class="btn-edit" title="Valider">Valider</button>
                             </form>
                             
-                            <button type="submit" class="btn-icon btn-reject" title="Refuser" onclick="openRejectModal({{ $res->id }})">✖</button>
+                            <button type="submit" class="btn-edit" title="Refuser" style="background-color: orange" onclick="openRejectModal({{ $res->id }})">Refuser</button>
                         </div>
 
                     @elseif(auth()->id() === $res->user_id && $res->status === 'pending')
                         <form action="{{ route('reservations.destroy', $res->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr ?');">
                             @csrf @method('DELETE')
-                            <button type="submit" class="btn-cancel">Annuler</button>
+                            <button type="submit" class="btn-edit">Annuler</button>
                         </form>
                     
                     @else
@@ -90,7 +88,7 @@
 </div>
 <div id="rejectModal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
-        <h3 style="color: #dc3545;">Refuser la réservation</h3>
+        <h3 style="color: orange;">Refuser la réservation</h3>
         <p>Veuillez indiquer le motif du refus pour l'étudiant :</p>
 
         <form id="rejectForm" method="POST" action="">
@@ -110,7 +108,7 @@
                 </button>
                 
                 <button type="submit" 
-                        style="background: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">
+                        style="background: orange; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">
                     Confirmer le Refus
                 </button>
             </div>
