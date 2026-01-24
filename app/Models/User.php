@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        // AJOUTE TES NOUVEAUX CHAMPS ICI :
+        'cne',
         'role',       // admin, manager, internal, guest
         'status',     // active, pending, banned
         'department',

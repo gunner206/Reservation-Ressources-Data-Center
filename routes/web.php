@@ -11,6 +11,14 @@ use App\Models\User;
 use App\Models\Resource;
 use App\Models\Reservation;
 use App\Models\Incident;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\GoogleAuthController; // N'oublie pas cette ligne en haut !
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -143,4 +151,72 @@ Route::get('/test-db', function() {
         ]
     ];
 });
+// Route pour afficher le formulaire
+Route::get('/support', [TicketController::class, 'create'])->name('tickets.create');
+// Route pour envoyer le formulaire
+Route::post('/support', [TicketController::class, 'store'])->name('tickets.store');
+// On utilise le ContactController qu'on a déjà créé, ou un nouveau PageController
+Route::get('/about', [App\Http\Controllers\ContactController::class, 'about'])->name('about');
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/rules', function () {
+    return view('rules');
+});
 
+// Assure-toi aussi que la route support existe (si tu as le fichier support.blade.php)
+Route::get('/support', function () {
+    return view('contacts.support'); // Ou 'support' selon où tu as rangé le fichier
+});
+// 1. La route qui envoie vers Google (celle qui manque et cause le 404)
+Route::get('auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
+
+// 2. La route qui reçoit la réponse de Google (quand l'utilisateur revient)
+Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
+
+// 1. Affiche la page "Mot de passe oublié"
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->middleware('guest')->name('password.request');
+
+// 2. Traite l'envoi du mail (Laravel gère la logique magique ici)
+Route::post('/forgot-password', function (Illuminate\Http\Request $request) {
+    $request->validate(['email' => 'required|email']);
+
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+
+    return $status === Password::RESET_LINK_SENT
+                ? back()->with(['status' => __($status)])
+                : back()->withErrors(['email' => __($status)]);
+})->middleware('guest')->name('password.email');
+
+// 3. La route qui AFFICHE le formulaire de nouveau mot de passe (Celle qui manquait !)
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+// 4. La route qui ENREGISTRE le nouveau mot de passe
+Route::post('/reset-password', function (Illuminate\Http\Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->setRememberToken(Str::random(60));
+
+            $user->save();
+
+            event(new PasswordReset($user));
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+                ? redirect()->route('login')->with('status', __($status))
+                : back()->withErrors(['email' => [__($status)]]);
+})->middleware('guest')->name('password.update');
