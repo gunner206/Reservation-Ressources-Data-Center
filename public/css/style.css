@@ -1,3 +1,4 @@
+/* ---layout section---*/
 :root {
     --bg-color: #05051a;
     --teal-button: #56b3a3;
@@ -19,6 +20,10 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+body a{
+    color: var(--teal-button);
+    text-decoration: none;
 }
 
 .navbar {
@@ -111,6 +116,7 @@ footer h3 {
 
 .social img:hover { filter: grayscale(0%); }
 
+/*--media fitting section--*/
 @media (max-width: 1024px) {
     .navbar, footer {
         padding: 20px 5%;
@@ -157,6 +163,7 @@ footer h3 {
         margin: 0 auto;
     }
 }
+
 /* --- HERO SECTION --- */
 .hero {
     text-align: center;
@@ -190,7 +197,7 @@ footer h3 {
     margin-left: 10px;
 }
 
-/* --- RESOURCE GRID (Cartes) --- */
+/* --- RESOURCE GRID --- */
 .resource-preview {
     padding: 60px 0;
 }
@@ -248,7 +255,7 @@ footer h3 {
     align-items: center;
 }
 
-/* Style de l'Avatar */
+/* Avatar style */
 .user-profile {
     display: flex;
     flex-direction: column;
@@ -274,12 +281,12 @@ footer h3 {
 }
 
 .user-name-label {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: white;
     font-weight: 500;
 }
 
-/* Menu Deroulant */
+/* --avatar dropdown menu-- */
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -334,6 +341,9 @@ footer h3 {
     box-shadow: 0 0 10px var(--teal-button);
     background-color: #2980b9;
 }
+
+/*conflit ?*/
+
 /* --- DASHBOARD DYNAMIQUE --- */
 .dashboard-container {
     animation: fadeIn 0.8s ease-out;
@@ -368,13 +378,13 @@ footer h3 {
     overflow: hidden;
 }
 
-/* État : Warning (Ex: Réservations en attente) */
+/* Etat : Warning  */
 .stat-card.warning-card {
     border-left: 5px solid #f1c40f;
     background: rgba(241, 196, 15, 0.05);
 }
 
-/* État : Danger (Ex: Incidents critiques) */
+/* Etat : Danger */
 .stat-card.danger-card {
     border-left: 5px solid #e74c3c;
     background: rgba(231, 76, 60, 0.08);
@@ -418,7 +428,7 @@ footer h3 {
     transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Tableau d'Activité Récente */
+/* Tableau d'Activite Recente */
 .activity-section {
     margin-top: 50px;
     background: rgba(255, 255, 255, 0.02);
@@ -472,9 +482,9 @@ footer h3 {
 /* --- CARTES AVEC GRADIENT TOURNANT --- */
 .stat-card {
     position: relative;
-    background: #07071f; /* Fond interne de la carte */
+    background: #07071f;
     border-radius: 20px;
-    padding: 3px; /* Épaisseur de la bordure dégradée */
+    padding: 3px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -483,7 +493,7 @@ footer h3 {
     cursor: pointer;
 }
 
-/* L'élément qui crée le dégradé tournant */
+/* L'element qui cree le degrade tournant */
 .stat-card::before {
     content: '';
     position: absolute;
@@ -497,8 +507,10 @@ footer h3 {
     );
     animation: rotateGradient 4s linear infinite;
 }
+/*find a way to keep the elements inside
+while keeping the css property of gradiant color rotation */
 
-/* Cache le centre du dégradé pour ne laisser que la bordure */
+/* Cache le centre du degrade pour ne laisser que la bordure */
 .stat-card::after {
     content: '';
     position: absolute;
@@ -508,7 +520,7 @@ footer h3 {
     z-index: 1;
 }
 
-/* Contenu réel de la carte (au-dessus du dégradé) */
+/* Contenu reel de la carte (au-dessus du degrade) */
 .stat-content {
     position: relative;
     z-index: 2;
@@ -522,12 +534,7 @@ footer h3 {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* Accélère la rotation au survol */
-.stat-card:hover::before {
-    animation-duration: 1.5s;
-}
-
-/* Couleurs spécifiques par type de carte */
+/* Couleurs specifiques par type de carte */
 .stat-card.warning-card::before {
     background: conic-gradient(transparent, #f1c40f, #e67e22, transparent 30%);
 }
@@ -551,220 +558,150 @@ footer h3 {
     color: white;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
-/* --- HERO CARDS DYNAMIQUES --- */
-.stat-card {
-    position: relative;
-    background: #0a0a2e;
-    border-radius: 15px;
-    padding: 3px; /* Épaisseur de la bordure */
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Bordure dégradée tournante */
-.stat-card::before {
-    content: '';
-    position: absolute;
-    width: 150%;
-    height: 150%;
-    background: conic-gradient(transparent, var(--teal-button), #3498db, transparent 30%);
-    animation: rotate 4s linear infinite;
-    top: -25%; left: -25%;
-}
-
-.stat-card::after {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    background: #0a0a2e;
-    border-radius: 13px;
-    z-index: 1;
-}
-
-.stat-content {
-    position: relative;
-    z-index: 2;
-    padding: 20px;
-}
-
-/* Hover Effects */
-.stat-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-}
-
-.stat-card:hover::before { animation-duration: 2s; }
-
-/* Animation */
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* Ressources Preview */
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 40px 0 20px;
-}
-
-.voir-plus-link {
-    color: var(--teal-button);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-/* --- ANIMATION DE BORDURE TOURNANTE (CIRCLING GRADIENT) --- */
-.stat-card {
-    position: relative;
-    background: #0a0a2e;
-    border-radius: 20px;
-    padding: 3px; /* Épaisseur de la bordure */
-    overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex;
-}
-
-/* Le dégradé qui tourne derrière la carte */
-.stat-card::before {
-    content: '';
-    position: absolute;
-    width: 150%;
-    height: 150%;
-    background: conic-gradient(transparent, var(--teal-button), #3498db, transparent 30%);
-    animation: rotateBorder 4s linear infinite;
-    top: -25%; left: -25%;
-}
-
-/* Fond interne pour créer l'effet de bordure */
-.stat-card::after {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    background: #05051a;
-    border-radius: 18px;
-    z-index: 1;
-}
-
-.stat-content {
-    position: relative;
-    z-index: 2;
-    padding: 25px;
-    width: 100%;
-}
-
-/* --- EFFETS AU SURVOL (MOVE ON HOVER) --- */
-.stat-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-}
-
-.stat-card:hover::before {
-    animation-duration: 1.5s; /* Accélère la rotation au survol */
-}
-
-/* Couleurs dynamiques selon l'état */
-.stat-card.warning-card::before { background: conic-gradient(transparent, #f1c40f, #e67e22, transparent 30%); }
-.stat-card.danger-card::before { background: conic-gradient(transparent, #e74c3c, #c0392b, transparent 30%); }
-
-@keyframes rotateBorder {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* --- LAYOUT DU CATALOGUE --- */
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 50px 0 25px;
-}
-
-.resource-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-line);
-    padding: 20px;
-    border-radius: 15px;
-    transition: 0.3s;
-}
-
-.resource-card:hover {
-    border-color: var(--teal-button);
-}
-
-.voir-plus-link {
-    display: inline-block;
-    margin-top: 15px;
-    color: var(--teal-button);
-    text-decoration: none;
-    font-weight: bold;
-}
-/* --- SECTION MATÉRIEL --- */
-.materials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.material-mini-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid var(--border-line);
-}
-
-.material-name { color: var(--text-gray); font-size: 0.9rem; }
-.material-count { color: var(--teal-button); font-weight: bold; font-size: 1.2rem; }
-
-/* --- PUBLICATIONS --- */
-.main-dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.pub-card {
-    background: rgba(255, 255, 255, 0.02);
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border-left: 3px solid var(--teal-button);
-}
-
-.pub-tag {
-    background: var(--teal-button);
-    color: white;
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-}
-
-.pub-date { color: var(--text-gray); font-size: 0.8rem; }
-
-/* --- EFFET BORDURE TOURNANTE --- */
-.stat-card::before {
-    content: '';
-    position: absolute;
-    width: 150%; height: 150%;
-    background: conic-gradient(transparent, var(--teal-button), #3498db, transparent 30%);
-    animation: rotate 4s linear infinite;
-}
-
-.stat-card:hover {
-    transform: translateY(-10px);
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
 
 @media (max-width: 768px) {
     .main-dashboard-grid { grid-template-columns: 1fr; }
 }
+:root {
+    --bg-dark: #05051a;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --teal: #56b3a3;
+    --teal-glow: rgba(86, 179, 163, 0.3);
+    --border: rgba(255, 255, 255, 0.1);
+    --text-main: #ffffff;
+    --text-dim: #b0b0b0;
+    --error: #e74c3c;
+}
+/*--forms global css--*/
+.data-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.data-form label {
+    display: block;
+    color: var(--teal);
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.data-form input,
+.data-form select,
+.data-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    background: rgba(51, 48, 48, 0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.data-form input:focus,
+.data-form select:focus,
+.data-form textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 10px var(--teal-glow);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.data-form fieldset {
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.data-form legend {
+    color: var(--text-dim);
+    padding: 0 10px;
+    font-size: 0.85rem;
+}
+
+.data-form .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.data-form .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--teal-glow);
+}
+/*--tables css--*/
+.table-container {
+    overflow-x: auto;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    margin-top: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-main);
+    background: transparent;
+}
+
+.data-table th {
+    background: rgba(86, 179, 163, 0.1);
+    color: var(--teal);
+    text-align: left;
+    padding: 15px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border);
+}
+
+.data-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+    color: var(--text-dim);
+}
+
+.data-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.3s ease;
+}
+
+/* Status Badge Styles within Tables */
+.data-table .badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.data-table .status-active { background: rgba(86, 179, 163, 0.2); color: var(--teal); }
+.data-table .status-inactive { background: rgba(231, 76, 60, 0.2); color: var(--error); }
+/*show blade*/
+        .btn-edit ,.btn-delete {
+            background-color: var(--teal-button);
+            color: white ;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+
