@@ -33,6 +33,8 @@ class ReservationController extends Controller
      */
     public function create()
     {
+        $startHour = 8;
+        $endHour = 24;
         $categories = \App\Models\Category::with('resources')->get();
 
         $resourcesList = \App\Models\Resource::with(['reservations' => function($q) {
@@ -41,7 +43,7 @@ class ReservationController extends Controller
             ->orderBy('start_date');
         }])->get();
 
-        return view('reservations.create', compact('categories', 'resourcesList'));
+        return view('reservations.create', compact('categories', 'resourcesList', 'startHour', 'endHour'));
     }
 
     /**
@@ -82,8 +84,7 @@ class ReservationController extends Controller
                 'user_id' => $manager->id,
                 'type'    => 'new_request',
                 'data'    => [
-                    // !!! i need to fix the formate
-                    'message' => 'Nouvelle demande de ' . auth()->user()->name . ' pour ' . $request->start_date
+                    'message' => 'Nouvelle demande de ' . auth()->user()->name . ' pour ' . $request->start_date->format('d/m/Y H:i A')
                 ],
                 'read_at' => null
             ]);

@@ -1,12 +1,41 @@
 @extends('layout')
 
 @section('content')
-<div class="split-container">
+<h3 style="text-align: center;"> Chart des Reservation (Aujourd'hui) </h3>
+<br>
+<div id="gant">
+    <script>
+        let gant = document.getElementById("gant");
+        for (let i = 0 ; i <= 16 ; i++){
+            let header = document.createElement("div");
+            header.className = "head";
+            if (i == 16) header.innerHTML = "00:00";
+            else header.innerHTML = i + 8 + ":00";
+            gant.appendChild(header);
+        }
+    </script>
+    @php
+        static $row_count = 2; 
+    @endphp
+    @foreach($resourcesList as $resource)
+        @foreach($resource->reservations as $res)
+            @php
+                $resStart = $res->start_date->hour - 7;
+                $resEnd = $res->start_date->hour;
+                $span = min(($res->end_date->hour - $res->start_date->hour),(16 - $resStart));
+            @endphp
+            <div style="margin:5px 0 5px 0; text-align: center; border-radius: 10px; color: #242437; background-color: #c98159;grid-row: {{ $row_count }}; grid-column:{{ $resStart }} / span {{ $span }}">{{ $resource->name }}</div>
+        @endforeach
+        @php $row_count++ @endphp
+    @endforeach
+</div>
+<br><br>
 
+<div class="split-container">
     <div class="form-section">
         <div class="card">
-            <h3>📝 Réserver une Ressource</h3>
-
+            <h3>Réserver une Ressource</h3>
+            <br>
             @if ($errors->any())
                 <div class="alert-error">
                     <ul>@foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach</ul>
@@ -65,11 +94,12 @@
         </div>
     </div>
 
-    <div class="table-container">
+    <div class="container-section">
         <div class="card">
             <div class="list-header">
                 <h3> État des Ressources (Aujourd'hui)</h3>
                 <span class="date-badge">{{ now()->format('d/m/Y') }}</span>
+                <br>
             </div>
 
             <table class="data-table">
@@ -117,7 +147,43 @@
             </table>
         </div>
     </div>
-
 </div>
+
+
+    <style>
+        h3 ,span{
+            text-align : center;
+        }
+        .split-container{
+            display: flex;
+            flex-wrap: wrap;
+            gap:20px;
+            flex-direction: column;
+        }
+        .card{
+            margin: 0;
+        }
+        .form-section{
+            flex:1;
+            min-width: 300px;
+        }
+        .container-section{
+            flex: 2;
+            min-width: 300px;
+        }
+        #gant {
+            display: grid;
+            grid-template-columns: repeat(17, minmax(0, 1fr));
+            border: #242437 1px solid;
+        }
+        #gant .head {
+            border: 1px #242437 solid;
+            padding: 0 10px 0 10px;
+            text-align: center;
+            font-weight: 700;
+            color: #56b3a3;
+            background : #131c2e;
+        }
+    </style>
 
 @endsection
