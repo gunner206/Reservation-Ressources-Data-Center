@@ -10,13 +10,25 @@
 <body>
   <header class="navbar">
         <div class="logo">
-            <img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="250" height="auto">
+            <a href="/dashboard"><img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="250" height="auto"></a>
         </div>
         <nav class="menu">
-            <a href="/dashboard">Dashboard</a>
-            <a href="/reservations">Reservation</a>
-            <a href="/ressources">Ressources</a>
-           <a href="{{ route('about') }}" class="nav-link">Contacts</a>
+            <a href="/dashboard"
+               class="{{ request()->is('dashboard') ? 'active' : '' }}">
+               Dashboard
+            </a>
+            <a href="/reservations"
+               class="{{ request()->is('reservations*') ? 'active' : '' }}">
+               Reservation
+            </a>
+            <a href="/ressources"
+               class="{{ request()->is('ressources*') ? 'active' : '' }}">
+               Ressources
+            </a>
+            <a href="{{ route('about') }}"
+               class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">
+               Contacts
+            </a>
         </nav>
 
         <div class="auth-section">
@@ -64,7 +76,7 @@
     </main>
     <footer>
        <div class="description">
-            <img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="120" height="auto">
+            <a href="/dashboard"><img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="120" height="auto"></a>
              <p>Système complet pour consulter, réserver et administrer les serveurs, VM, stockages et équipements réseau d’un Data Center, avec gestion avancée des rôles et permissions.</p>
        </div>
        <div class="activitie">

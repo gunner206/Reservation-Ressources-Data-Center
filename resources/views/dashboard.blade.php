@@ -13,6 +13,7 @@
 
         {{-- Carte 1 : Santé de l'Infrastructure --}}
         <div class="stat-card">
+            <div class="stat-content">
             <div class="stat-header">
                 <span class="stat-label">Santé Infrastructure</span>
                 <span class="stat-icon">🛠️</span>
@@ -22,20 +23,24 @@
                 <div class="progress-fill" style="width: {{ $stats['infra_health'] }}%"></div>
             </div>
             <div class="stat-footer">Ressources actives sur le total.</div>
+            </div>
         </div>
 
         {{-- Carte 2 : Approbations en Attente (Dynamique : devient jaune s'il y a des demandes) --}}
         <div class="stat-card {{ $stats['reservations_pending'] > 0 ? 'warning-card' : '' }}">
+            <div class="stat-content">
             <div class="stat-header">
                 <span class="stat-label">Attente Approbation</span>
                 <span class="stat-icon">⏳</span>
             </div>
             <div class="stat-value">{{ $stats['reservations_pending'] }}</div>
             <div class="stat-footer">Demandes de réservation à valider.</div>
+            </div>
         </div>
 
         {{-- Carte 3 : Taux d'Occupation --}}
         <div class="stat-card">
+            <div class="stat-content">
             <div class="stat-header">
                 <span class="stat-label">Taux d'Occupation</span>
                 <span class="stat-icon">📈</span>
@@ -45,16 +50,19 @@
                 <div class="progress-fill" style="width: {{ $stats['occupancy'] }}%; background: #3498db; box-shadow: 0 0 10px #3498db;"></div>
             </div>
             <div class="stat-footer">Volume des ressources réservées.</div>
+            </div>
         </div>
 
         {{-- Carte 4 : Alertes Critiques (Dynamique : clignote en rouge s'il y a des incidents) --}}
         <div class="stat-card {{ $stats['critical_incidents'] > 0 ? 'danger-card' : '' }}">
+            <div class="stat-content">
             <div class="stat-header">
                 <span class="stat-label">Incidents Critiques</span>
                 <span class="stat-icon">🔥</span>
             </div>
             <div class="stat-value">{{ $stats['critical_incidents'] }}</div>
             <div class="stat-footer">Priorité Haute ou Critique ouverte.</div>
+            </div>
         </div>
 
     </div>
