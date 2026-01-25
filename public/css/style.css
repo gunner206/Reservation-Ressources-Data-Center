@@ -45,6 +45,16 @@ body a{
     font-weight: 500;
     font-size: 1.1rem;
 }
+.menu a.active {
+    color: var(--teal-button);
+    border-bottom: 2px solid var(--teal-button);
+    padding-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.menu a:hover {
+    color: var(--teal-button);
+}
 
 .auth-buttons {
     display: flex;

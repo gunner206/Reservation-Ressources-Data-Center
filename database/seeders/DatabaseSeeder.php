@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // --------------------------------------------
         // 1. CRÉATION DE L'ÉQUIPE TECHNIQUE (REAL DATA)
         // --------------------------------------------
-        
+
         // 1. Chaimae (Admin)
         $admin = User::create([
             'name' => 'Chaimae',
@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
             'department' => null
         ]);
 
-        
+
         // --------------------------------------------
         // 2. CRÉATION DES CATÉGORIES
         // --------------------------------------------
@@ -107,7 +107,7 @@ class DatabaseSeeder extends Seeder
 
         $this->ajouterReservations($admin, $student);
     }
-    
+
     /**
      * Méthode pour gérer les catégories
      */
@@ -115,7 +115,7 @@ class DatabaseSeeder extends Seeder
     {
         if (!Schema::hasTable('categories')) return;
         if (DB::table('categories')->count() > 0) return;
-        
+
         $categories = [
             ['name' => 'Serveurs', 'icon' => '💻'],
             ['name' => 'Stockage', 'icon' => '🗄️'],
@@ -123,7 +123,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Sécurité', 'icon' => '🔒'],
             ['name' => 'Virtualisation', 'icon' => '☁️'],
         ];
-        
+
         foreach ($categories as $category) {
             DB::table('categories')->insert([
                 'name' => $category['name'],
