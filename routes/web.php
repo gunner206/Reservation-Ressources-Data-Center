@@ -37,7 +37,11 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
     }
-    return view('welcome');
+    $reservations = Reservation::with(['user', 'resource'])->latest()->get();
+    $resources = Resource::with('category')->where('is_active', true)->get();
+
+    return view('welcome', compact('reservations', 'resources'));
+
 })->name('home');
 
 Route::get('/about', [ContactController::class, 'about'])->name('about');
@@ -53,7 +57,7 @@ Route::get('/test-simple', fn() => "TEST SIMPLE - OK");
 // Connexion, Inscription, Reset MDP, Google
 // ==========================================
 Route::middleware('guest')->group(function () {
-    
+
     // Authentification Classique
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -64,7 +68,7 @@ Route::middleware('guest')->group(function () {
     Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
 
     // --- MOT DE PASSE OUBLIÉ (Doit être ici, pas dans 'auth') ---
-    
+
     // 1. Formulaire demande lien
     Route::get('/forgot-password', function () {
         return view('auth.forgot-password');
@@ -166,7 +170,7 @@ Route::middleware('auth')->group(function () {
     // --- NOTIFICATIONS ---
     // Route Controller standard (recommandé)
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    
+
     // Si tu préfères la version closure rapide (commenter la ligne du dessus si tu utilises celle-ci) :
     /*
     Route::get('/notifications-list', function () {

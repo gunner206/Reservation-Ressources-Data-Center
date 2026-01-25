@@ -10,21 +10,45 @@
 
     <section id="resources" class="resource-preview">
         <h2>Catalogue des Ressources</h2>
-        <div class="resource-grid">
-            <div class="resource-card">
-                <div class="badge status-available">Disponible</div>
-                <h3>Serveur Dell PowerEdge R740</h3>
-                <p>CPU: 24 Cores | RAM: 128 Go | Stockage: 2To SSD</p>
-                <span class="category-tag">Serveur Physique</span>
-            </div>
 
-            <div class="resource-card">
-                <div class="badge status-busy">Occupé</div>
-                <h3>VM - Instance Linux Ubuntu</h3>
-                <p>vCPU: 4 | RAM: 16 Go | Bande passante: 1Gbps</p>
-                <span class="category-tag">Machine Virtuelle</span>
-            </div>
-            </div>
+        <div class="resource-grid">
+            @forelse($resources as $resource)
+                <div class="resource-card">
+                    {{-- Calcul simple de la disponibilité (Optionnel) --}}
+                    @php
+                        // On vérifie si la ressource est disponible MAINTENANT
+                        $isAvailable = \App\Models\Reservation::isAvailable($resource->id, now(), now());
+                    @endphp
+
+                    @if($isAvailable)
+                        <div class="badge status-available">Disponible</div>
+                    @else
+                        <div class="badge status-busy">Occupé</div>
+                    @endif
+
+                    <h3>{{ $resource->name }}</h3>
+
+                    {{-- Affichage des spécifications (si stockées en JSON/Array) --}}
+                    <p>
+                        @if(is_array($resource->specs))
+                            @foreach($resource->specs as $key => $value)
+                                {{ ucfirst($key) }}: {{ $value }}
+                                @if(!$loop->last) | @endif
+                            @endforeach
+                        @else
+                            {{-- Cas où specs est juste du texte --}}
+                            {{ Str::limit($resource->description, 50) }}
+                        @endif
+                    </p>
+
+                    <span class="category-tag">
+                        {{ $resource->category->name ?? 'Non classé' }}
+                    </span>
+                </div>
+            @empty
+                <p>Aucune ressource disponible pour le moment.</p>
+            @endforelse
+        </div>
     </section>
 
     <section class="rules">
