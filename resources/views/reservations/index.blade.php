@@ -7,9 +7,15 @@
         @else
             <h2>Mes Réservations</h2>
             <br>
+            @if (auth()->user()->role === 'guest')
+            <a href="{{ route('dashboard') }}" class="btn-edit">
+                + Nouvelle Réservation
+            </a>
+            @else
             <a href="{{ route('reservations.create') }}" class="btn-edit">
                 + Nouvelle Réservation
             </a>
+            @endif
         @endif
     </div>
     <br>

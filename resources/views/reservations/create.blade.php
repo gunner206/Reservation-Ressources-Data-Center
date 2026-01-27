@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+{{-- @if (!$resourcesList->isEmpty())
 <h3 style="text-align: center;"> Chart des Reservation (Aujourd'hui) </h3>
 <br>
 <div id="gant">
@@ -24,13 +25,74 @@
                 $resEnd = $res->start_date->hour;
                 $span = min(($res->end_date->hour - $res->start_date->hour),(16 - $resStart));
             @endphp
-            <div style="margin:5px 0 5px 0; text-align: center; border-radius: 10px; color: #242437; background-color: #c98159;grid-row: {{ $row_count }}; grid-column:{{ $resStart }} / span {{ $span }}">{{ $resource->name }}</div>
+            <div style="margin:5px 0 5px 0; text-align: center; color: #242437; background-color: #c98159;grid-row: {{ $row_count }}; grid-column:{{ $resStart }} / span {{ $span }}">{{ $resource->name }}</div>
         @endforeach
         @php $row_count++ @endphp
     @endforeach
 </div>
 <br><br>
+@endif --}}
+@if (!$resourcesList->isEmpty())
+<div class="gantt-container">
+    <h3 style="text-align: center; color: #242437; margin-bottom: 20px;">📅 Planning des Réservations</h3>
 
+    @php
+        $startHour = 8;
+        $endHour = 24;
+        $totalMinutes = ($endHour - $startHour) * 60; // 960 minutes totales
+    @endphp
+
+    <div class="gantt-chart">
+        <div class="gantt-row header-row">
+            <div class="gantt-sidebar">Ressource</div> <div class="gantt-timeline">
+                @for ($i = 0; $i <= ($endHour - $startHour); $i++)
+                    <div class="time-marker" style="left: {{ ($i / ($endHour - $startHour)) * 100 }}%">
+                        {{ $startHour + $i }}:00
+                    </div>
+                @endfor
+            </div>
+        </div>
+
+        @foreach($resourcesList as $resource)
+        <div class="gantt-row">
+            <div class="gantt-sidebar">
+                <strong>{{ $resource->name }}</strong>
+            </div>
+
+            <div class="gantt-timeline">
+                <div class="grid-background">
+                    @for ($i = 0; $i <= ($endHour - $startHour); $i++)
+                        <div class="grid-line" style="left: {{ ($i / ($endHour - $startHour)) * 100 }}%"></div>
+                    @endfor
+                </div>
+
+                @foreach($resource->reservations as $res)
+                    @php
+                        // Calcul précis en minutes
+                        $resStartMinute = ($res->start_date->hour * 60) + $res->start_date->minute;
+                        $resEndMinute   = ($res->end_date->hour * 60) + $res->end_date->minute;
+                        
+                        // Décalage par rapport à 8h00 (début journée)
+                        $startOffset = max(0, $resStartMinute - ($startHour * 60));
+                        $duration = $resEndMinute - $resStartMinute;
+
+                        // Conversion en Pourcentage CSS
+                        $leftPercent = ($startOffset / $totalMinutes) * 100;
+                        $widthPercent = ($duration / $totalMinutes) * 100;
+                    @endphp
+
+                    <div class="gantt-bar" 
+                         style="left: {{ $leftPercent }}%; width: {{ $widthPercent }}%;"
+                         title="{{ $res->start_date->format('H:i') }} - {{ $res->end_date->format('H:i') }}">
+                        <span class="bar-label">{{ $res->user->name ?? 'Réservé' }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+@endif
 <div class="split-container">
     <div class="form-section">
         <div class="card">
@@ -171,7 +233,7 @@
             flex: 2;
             min-width: 300px;
         }
-        #gant {
+        /* #gant {
             display: grid;
             grid-template-columns: repeat(17, minmax(0, 1fr));
             border: #242437 1px solid;
@@ -183,6 +245,90 @@
             font-weight: 700;
             color: #56b3a3;
             background : #131c2e;
+        } */
+         /* Conteneur principal */
+        .gantt-chart {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        /* Une Ligne (Header ou Ressource) */
+        .gantt-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            height: 50px; /* Hauteur d'une ligne */
+            position: relative;
+        }
+
+        .header-row {
+            background-color: #131c2e;
+            color: #56b3a3;
+            height: 40px;
+            font-size: 0.85em;
+        }
+
+        /* Colonne Gauche (Noms) */
+        .gantt-sidebar {
+            width: 200px; /* Largeur fixe pour les noms */
+            min-width: 200px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid #ddd;
+            background: #f9f9f9;
+            z-index: 2; /* Reste au dessus */
+        }
+
+        /* Colonne Droite (Timeline) */
+        .gantt-timeline {
+            flex-grow: 1; /* Prend tout le reste de la place */
+            position: relative; /* Important pour le positionnement absolute des barres */
+        }
+
+        /* Les chiffres des heures */
+        .time-marker {
+            position: absolute;
+            transform: translateX(-50%); /* Pour centrer le texte sur le trait */
+            top: 10px;
+            font-weight: bold;
+        }
+
+        /* Lignes verticales grises */
+        .grid-background {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .grid-line {
+            position: absolute;
+            top: 0; bottom: 0;
+            border-left: 1px solid #f0f0f0;
+        }
+
+        /* La Barre de Réservation */
+        .gantt-bar {
+            position: absolute;
+            top: 10px; bottom: 10px; /* Marges haut/bas */
+            background-color: #c98159;
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gantt-bar:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            background-color: #b56e48;
         }
     </style>
 

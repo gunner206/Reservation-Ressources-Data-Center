@@ -2,7 +2,6 @@
 
 @section('content')
 
-{{-- 1. On définit le CSS proprement ici pour éviter les erreurs de l'éditeur --}}
 <style>
     .notif-item {
         background: #1a202c;
@@ -23,6 +22,9 @@
         border-left: 4px solid #e53e3e;
         background-color: #2d3748; /* Un peu plus clair pour ressortir */
     }
+    li:hover {
+        background-color: #f8f9fa !important;
+    }
 </style>
 
 <div class="container" style="max-width: 800px; margin: 50px auto; color: white;">
@@ -40,6 +42,7 @@
         <ul style="list-style: none; padding: 0;">
             @foreach($notifications as $notif)
             <div>
+                <a href="{{ route('reservations.index') }}" style="text-decoration: none; color: inherit; display: block;">
                     <li style="background: #fff; border-bottom: 1px solid #ddd; padding: 15px; {{ $notif->read_at ? 'opacity: 0.7;' : 'border-left: 4px solid #007bff;' }}">
                         
                         <strong style="color: black;font-size: 1.1em;">

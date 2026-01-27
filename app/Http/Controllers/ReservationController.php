@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+
 use App\Models\Categorie;
 use App\Models\Category;
 use App\Models\Reservation;
@@ -66,7 +68,7 @@ class ReservationController extends Controller
         }
 
         // Enregistrement dans la base de donne
-        Reservation::create([
+        $reservation = Reservation::create([
             'user_id' => auth()->user()->id,
             'resource_id' => $request->resource_id,
             'start_date' => $request->start_date,
@@ -79,12 +81,13 @@ class ReservationController extends Controller
         $managers = \App\Models\User::whereIn('role', ['manager', 'admin'])->get();
 
         // Notifications pour les managers
+        $formattedDate = Carbon::parse($request->start_date)->format('d/m/Y H:i A');
         foreach ($managers as $manager) {
             \App\Models\Notification::create([
                 'user_id' => $manager->id,
                 'type'    => 'new_request',
                 'data'    => [
-                    'message' => 'Nouvelle demande de ' . auth()->user()->name . ' pour ' . $request->start_date->format('d/m/Y H:i A')
+                    'message' => 'Nouvelle demande de ' . auth()->user()->name . ' pour ' . $formattedDate
                 ],
                 'read_at' => null
             ]);
@@ -98,7 +101,7 @@ class ReservationController extends Controller
      * Display the specified resource.
      */
     public function show(Reservation $reservation)
-    {
+    {  
         //
     }
 
@@ -151,7 +154,7 @@ class ReservationController extends Controller
             'data'    => [
                 'message' => "Votre réservation pour " . $reservation->resource->name . " a été validée ✅"
             ],
-            'read_at' => null // NULL signifie "Non lu"
+            'read_at' => null // NULL signifie "Non lu"        
         ]);
         return back()->with('Succes', 'Reservation validee avec succes !');
 

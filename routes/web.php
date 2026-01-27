@@ -168,19 +168,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/support', [TicketController::class, 'store'])->name('tickets.store');
 
     // --- NOTIFICATIONS ---
-    // Route Controller standard (recommandé)
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications', function () {
+        $user = auth()->user();
 
-    // Si tu préfères la version closure rapide (commenter la ligne du dessus si tu utilises celle-ci) :
-    /*
-    Route::get('/notifications-list', function () {
-        $notifications = \App\Models\Notification::where('user_id', auth()->id())
-                            ->orderBy('created_at', 'desc')->get();
-        \App\Models\Notification::where('user_id', auth()->id())
-            ->whereNull('read_at')->update(['read_at' => now()]);
+        // 1. ACTION D'ABORD : On marque tout comme "Lu" dans la base
+        \App\Models\Notification::where('user_id', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        // 2. RÉCUPÉRATION ENSUITE : On charge les notifs (qui sont maintenant à jour)
+        $notifications = \App\Models\Notification::where('user_id', $user->id)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+        
         return view('notifications.index', compact('notifications'));
-    });
-    */
+    })->name('notifications.index');
 });
 
 // ==========================================
