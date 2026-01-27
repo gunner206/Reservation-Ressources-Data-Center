@@ -145,20 +145,26 @@ Route::middleware('auth')->group(function () {
     Route::patch('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
     Route::patch('/reservations/{id}/refuse', [ReservationController::class, 'refuse'])->name('reservations.refuse');
 
+    
     // --- RESSOURCES ---
-    // 1. Lecture pour tous
-    Route::get('/ressources', [RessourceController::class, 'index'])->name('ressources.index');
-    Route::get('/ressources/{id}', [RessourceController::class, 'show'])->name('ressources.show');
-
-    // 2. Gestion (Admin/Manager uniquement)
+    
+    // 1. Routes de création (DOIVENT être avant {id})
     Route::middleware(['role:admin,manager'])->group(function () {
         Route::get('/ressources/create', [RessourceController::class, 'create'])->name('ressources.create');
         Route::post('/ressources', [RessourceController::class, 'store'])->name('ressources.store');
+    });
+
+    // 2. Consultation (Lecture seule)
+    Route::get('/ressources', [RessourceController::class, 'index'])->name('ressources.index');
+    Route::get('/ressources/{id}', [RessourceController::class, 'show'])->name('ressources.show');
+
+    // 3. Edition (Admin/Manager uniquement)
+    Route::middleware(['role:admin,manager'])->group(function () {
         Route::get('/ressources/{id}/edit', [RessourceController::class, 'edit'])->name('ressources.edit');
         Route::put('/ressources/{id}', [RessourceController::class, 'update'])->name('ressources.update');
     });
 
-    // 3. Suppression (Admin uniquement)
+    // 4. Suppression (Admin uniquement)
     Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])
           ->middleware('role:admin')
           ->name('ressources.destroy');
