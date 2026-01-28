@@ -11,6 +11,7 @@ use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\UserController;
 
 // Importation des Modèles
 use App\Models\User;
@@ -102,8 +103,16 @@ Route::middleware('auth')->group(function () {
     // Ajout de la route index pour éviter l'erreur
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
 
-    // --- UTILISATEURS (ADMIN) ---
-    Route::get('/users', function() { return "Page Utilisateurs à venir"; })->name('users.index');
+   // --- UTILISATEURS (ADMIN) ---
+    // 1. Liste des utilisateurs
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+    // 2. Modification (pour changer le rôle)
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+
+    // 3. Suppression (Bannir)
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
     // --- NOTIFICATIONS ---
     Route::get('/notifications', function () {
