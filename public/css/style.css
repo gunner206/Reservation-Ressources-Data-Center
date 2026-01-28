@@ -1,4 +1,4 @@
-
+/* ---layout section---*/
 :root {
     --bg-color: #05051a;
     --teal-button: #56b3a3;
@@ -21,6 +21,10 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+body a{
+    color: var(--teal-button);
+    text-decoration: none;
+}
 
 .navbar {
     display: flex;
@@ -40,6 +44,16 @@ body {
     text-decoration: none;
     font-weight: 500;
     font-size: 1.1rem;
+}
+.menu a.active {
+    color: var(--teal-button);
+    border-bottom: 2px solid var(--teal-button);
+    padding-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.menu a:hover {
+    color: var(--teal-button);
 }
 
 .auth-buttons {
@@ -112,6 +126,7 @@ footer h3 {
 
 .social img:hover { filter: grayscale(0%); }
 
+/*--media fitting section--*/
 @media (max-width: 1024px) {
     .navbar, footer {
         padding: 20px 5%;
@@ -158,3 +173,545 @@ footer h3 {
         margin: 0 auto;
     }
 }
+
+/* --- HERO SECTION --- */
+.hero {
+    text-align: center;
+    padding: 100px 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ffffff, var(--teal-button));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    color: var(--text-gray);
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.btn-outline {
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid var(--teal-button);
+    color: var(--teal-button);
+    margin-left: 10px;
+}
+
+/* --- RESOURCE GRID --- */
+.resource-preview {
+    padding: 60px 0;
+}
+
+.resource-preview h2 {
+    margin-bottom: 40px;
+    border-left: 4px solid var(--teal-button);
+    padding-left: 15px;
+}
+
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.resource-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-line);
+    padding: 25px;
+    border-radius: 15px;
+    position: relative;
+    transition: 0.3s;
+}
+
+.resource-card:hover {
+    border-color: var(--teal-button);
+    transform: translateY(-5px);
+}
+
+/* --- BADGES DE STATUT --- */
+.badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-available { background: rgba(86, 179, 163, 0.2); color: #56b3a3; }
+.status-busy { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+.category-tag {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    font-style: italic;
+}
+/* Section Authentification */
+.auth-section {
+    display: flex;
+    align-items: center;
+}
+
+/* Avatar style */
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    min-width: 80px;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    transition: background-color 0.3s;
+}
+
+.user-name-label {
+    font-size: 0.8rem;
+    color: white;
+    font-weight: 500;
+}
+
+/* --avatar dropdown menu-- */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    z-index: 1000;
+    min-width: 160px;
+    margin-top: 10px;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #444;
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-menu hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 4px 0;
+}
+
+.logout-btn {
+    color: #d63031 !important;
+    font-weight: 600;
+}
+.menu-checkbox {
+    display: none;
+}
+.menu-checkbox:checked ~ .dropdown-menu {
+    display: block;
+}
+.menu-checkbox:checked ~ .avatar-trigger .avatar-circle {
+    box-shadow: 0 0 10px var(--teal-button);
+    background-color: #2980b9;
+}
+
+/*conflit ?*/
+
+/* --- DASHBOARD DYNAMIQUE --- */
+.dashboard-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.hero-header {
+    margin-bottom: 40px;
+}
+
+.hero-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(to right, #ffffff, var(--teal-button));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+/* Grille et Cartes de Statistiques */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-line);
+    border-radius: 20px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Etat : Warning  */
+.stat-card.warning-card {
+    border-left: 5px solid #f1c40f;
+    background: rgba(241, 196, 15, 0.05);
+}
+
+/* Etat : Danger */
+.stat-card.danger-card {
+    border-left: 5px solid #e74c3c;
+    background: rgba(231, 76, 60, 0.08);
+    animation: pulse-red 2s infinite;
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stat-label {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+}
+
+/* Barres de Progression */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 15px 0 10px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: var(--teal-button);
+    box-shadow: 0 0 10px var(--teal-button);
+    transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Tableau d'Activite Recente */
+.activity-section {
+    margin-top: 50px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-line);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.activity-table th {
+    text-align: left;
+    color: var(--text-gray);
+    padding: 15px;
+    border-bottom: 1px solid var(--border-line);
+    font-size: 0.9rem;
+}
+
+.activity-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+}
+
+/* Badges de Statut pour le Tableau */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.status-badge.approved { background: rgba(86, 179, 163, 0.2); color: #56b3a3; }
+.status-badge.pending { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+.status-badge.refused { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+/* Animations */
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* --- CARTES AVEC GRADIENT TOURNANT --- */
+.stat-card {
+    position: relative;
+    background: #07071f;
+    border-radius: 20px;
+    padding: 3px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+    cursor: pointer;
+}
+
+/* L'element qui cree le degrade tournant */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: conic-gradient(
+        transparent,
+        var(--teal-button),
+        #3498db,
+        transparent 30%
+    );
+    animation: rotateGradient 4s linear infinite;
+}
+/*find a way to keep the elements inside
+while keeping the css property of gradiant color rotation */
+
+/* Cache le centre du degrade pour ne laisser que la bordure */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    inset: 3px; /* Doit correspondre au padding du .stat-card */
+    background: #07071f;
+    border-radius: 18px;
+    z-index: 1;
+}
+
+/* Contenu reel de la carte (au-dessus du degrade) */
+.stat-content {
+    position: relative;
+    z-index: 2;
+    padding: 25px;
+    width: 100%;
+}
+
+/* --- EFFET DE MOUVEMENT AU SURVOL --- */
+.stat-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Couleurs specifiques par type de carte */
+.stat-card.warning-card::before {
+    background: conic-gradient(transparent, #f1c40f, #e67e22, transparent 30%);
+}
+
+.stat-card.danger-card::before {
+    background: conic-gradient(transparent, #e74c3c, #c0392b, transparent 30%);
+}
+
+/* Animation de rotation */
+@keyframes rotateGradient {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Correction pour les valeurs de texte */
+.stat-value {
+    position: relative;
+    z-index: 2;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .main-dashboard-grid { grid-template-columns: 1fr; }
+}
+:root {
+    --bg-dark: #05051a;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --teal: #56b3a3;
+    --teal-glow: rgba(86, 179, 163, 0.3);
+    --border: rgba(255, 255, 255, 0.1);
+    --text-main: #ffffff;
+    --text-dim: #b0b0b0;
+    --error: #e74c3c;
+}
+/*--forms global css--*/
+.data-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.data-form label {
+    display: block;
+    color: var(--teal);
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.data-form input,
+.data-form select,
+.data-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    background: rgba(51, 48, 48, 0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.data-form input:focus,
+.data-form select:focus,
+.data-form textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 10px var(--teal-glow);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.data-form fieldset {
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.data-form legend {
+    color: var(--text-dim);
+    padding: 0 10px;
+    font-size: 0.85rem;
+}
+
+.data-form .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.data-form .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--teal-glow);
+}
+/*--tables css--*/
+.table-container {
+    overflow-x: auto;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    margin-top: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-main);
+    background: transparent;
+}
+
+.data-table th {
+    background: rgba(86, 179, 163, 0.1);
+    color: var(--teal);
+    text-align: left;
+    padding: 15px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border);
+}
+
+.data-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+    color: var(--text-dim);
+}
+
+.data-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.3s ease;
+}
+
+/* Status Badge Styles within Tables */
+.data-table .badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.data-table .status-active { background: rgba(86, 179, 163, 0.2); color: var(--teal); }
+.data-table .status-inactive { background: rgba(231, 76, 60, 0.2); color: var(--error); }
+/*show blade*/
+        .btn-edit ,.btn-delete {
+            background-color: var(--teal-button);
+            color: white ;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+

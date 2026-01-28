@@ -4,38 +4,86 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('css/style.css')}}"> {{-- Votre CSS externe --}}
   <title>centrum</title>
 </head>
 <body>
   <header class="navbar">
         <div class="logo">
-            <img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="250" height="auto">
+            <a href="/dashboard"><img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="250" height="auto"></a>
         </div>
         <nav class="menu">
-            <a href="/dashboard">Dashboard</a>
-            <a href="/reservations">Reservation</a>
-            <a href="/contacts">Contacts</a>
+            <a href="/dashboard"
+               class="{{ request()->is('dashboard') ? 'active' : '' }}">
+               Dashboard
+            </a>
+            <a href="/reservations"
+               class="{{ request()->is('reservations*') ? 'active' : '' }}">
+               Reservation
+            </a>
+            <a href="/ressources"
+               class="{{ request()->is('ressources*') ? 'active' : '' }}">
+               Ressources
+            </a>
+            <a href="{{ route('about') }}"
+               class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">
+               Contacts
+            </a>
         </nav>
+
+        <div class="auth-section">
+    @auth
+        <div class="user-profile">
+            <input type="checkbox" id="user-menu-toggle" class="menu-checkbox">
+
+            <label for="user-menu-toggle" class="avatar-trigger">
+                <div class="avatar-circle">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+                <span class="user-name-label">{{ Auth::user()->name }}</span>
+            </label>
+            @php
+                $unreadCount = \App\Models\Notification::where('user_id', auth()->id())
+                                ->whereNull('read_at')
+                                ->count();
+            @endphp
+
+            <div class="dropdown-menu">
+                <a href="{{ route('reservations.index') }}">Mes Réservations</a>
+                <a href="{{ route('notifications.index') }}">Notifications
+                    @if($unreadCount > 0)
+                        <span style="background-color: red; color: white; padding: 2px 5px; border-radius: 50%;">{{ $unreadCount }}</span>
+                    @endif
+                </a>
+                <hr>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="logout-btn">Déconnexion</button>
+                </form>
+            </div>
+        </div>
+    @else
         <div class="auth-buttons">
-            <a href="/register" class="btn-signup">Sign up</a>
+            <a href="{{ route('login', ['action' => 'signup']) }}" class="btn-signup">Sign up</a>
             <a href="/login" class="btn-login">Login</a>
         </div>
+    @endauth
+</div>
     </header>
+
     <main>
-        <div class="content">
         @yield('content')
-    </div>
     </main>
     <footer>
        <div class="description">
-            <img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="120" height="auto">
+            <a href="/dashboard"><img src="{{asset('images/logo.png')}}" alt="Centrum Logo" width="120" height="auto"></a>
              <p>Système complet pour consulter, réserver et administrer les serveurs, VM, stockages et équipements réseau d’un Data Center, avec gestion avancée des rôles et permissions.</p>
        </div>
        <div class="activitie">
          <h3>Activie</h3>
         <a href="/dashboard">Dashboard</a>
-        <a href="/reservation">Reservation</a>
+        <a href="/reservations">Reservation</a>
+        <a href="/ressources">Ressources</a>
 
        </div>
        <div class="Contacts">

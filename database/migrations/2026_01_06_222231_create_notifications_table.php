@@ -26,7 +26,7 @@ return new class extends Migration
             
             // Données en JSON
             $table->json('data')
-                  ->comment('Contenu de la notification en JSON');
+                  ->comment('Message de notification');
             
             // Date de lecture
             $table->timestamp('read_at')

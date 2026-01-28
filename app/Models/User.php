@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,10 +20,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        // AJOUTE TES NOUVEAUX CHAMPS ICI :
+        'cne',
         'role',       // admin, manager, internal, guest
         'status',     // active, pending, banned
         'department',
+        
+        // ✅ J'ai ajouté ces champs pour qu'ils puissent être enregistrés :
+        'avatar',
+        'bio',
+        'linkedin_url',
+        'github_url',
     ];
 
     /**
