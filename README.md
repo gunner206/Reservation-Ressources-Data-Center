@@ -1,59 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏢 Data Center Resource Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-000000?style=for-the-badge&logo=mysql&logoColor=white)
 
-## About Laravel
+Une application web complète pour la gestion et la réservation des ressources physiques d'un Data Center (Serveurs, Routeurs, Postes de simulation). Ce projet a été conçu pour gérer les conflits de planning, valider les accès via une hiérarchie de rôles et visualiser l'occupation des machines en temps réel.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Fonctionnalités Clés
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🧠 Cœur Métier Intelligent
+- **Algorithme Anti-Chevauchement :** Un système robuste empêche toute double réservation sur un même créneau horaire via une logique SQL inversée.
+- **Gestion des États :** Cycle de vie complet des demandes (`Pending` → `Approved` ou `Rejected` avec justification obligatoire).
 
-## Learning Laravel
+### 🎨 Interface & UX (Sans Framework CSS)
+- **Planning Visuel (Gantt Chart) :** Un diagramme de Gantt interactif développé "from scratch" (sans librairie externe) pour visualiser les disponibilités.
+- **Responsive Design :** Interface adaptable mobile/desktop avec scroll horizontal pour les tableaux complexes.
+- **Split-Screen :** Formulaire de réservation et état des ressources en temps réel sur la même page.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 🛡️ Sécurité & Rôles (RBAC)
+- **Admin :** Gestion complète du parc, des utilisateurs et des logs système.
+- **Manager :** Validation des demandes de réservation et gestion des incidents.
+- **Utilisateur/Étudiant :** Réservation de matériel et suivi des demandes.
+- **Invité :** Accès restreint (consultation uniquement).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🔔 Système de Notifications
+- Notifications en temps réel stockées en base de données (JSON).
+- Alertes pour les validations, refus et nouvelles demandes.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📸 Aperçu du Projet
 
-### Premium Partners
+### Planning Visuel (Gantt Custom)
+*Visualisation précise des réservations de 08h00 à Minuit.*
+> [Insérer ici une capture d'écran de votre Gantt Chart]
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Tableau de Bord Manager
+*Gestion des demandes en attente et validation.*
+> [Insérer ici une capture d'écran du Dashboard]
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🛠️ Stack Technique
 
-## Code of Conduct
+- **Backend :** Laravel 10/11 (PHP 8.2+)
+- **Base de données :** MySQL
+- **Frontend :** Blade, CSS3 (Custom Grid/Flexbox), JavaScript (Vanilla)
+- **Outils :** Vite, Composer, Artisan
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## ⚙️ Installation
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Suivez ces étapes pour lancer le projet en local :
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 1. Cloner le projet
+```bash
+git clone [https://github.com/votre-pseudo/reservation-ressources-data-center.git](https://github.com/votre-pseudo/reservation-ressources-data-center.git)
+cd reservation-ressources-data-center
+2. Installer les dépendancesBashcomposer install
+npm install
+3. Configuration de l'environnementDupliquez le fichier d'exemple et générez la clé d'application :Bashcp .env.example .env
+php artisan key:generate
+N'oubliez pas de configurer vos accès BDD (DB_DATABASE, DB_USERNAME...) dans le fichier .env.4. Base de données & SeedersCréez les tables et injectez les données de test (Admin, Ressources, Catégories) :Bashphp artisan migrate:fresh --seed
+5. Lancer l'applicationCompilez les assets et lancez le serveur :Bashnpm run build
+php artisan serve
+Rendez-vous sur http://localhost:8000.🧪 Comptes de Test (Seeders)Une fois la commande migrate:fresh --seed lancée, vous pouvez utiliser ces comptes :RôleEmailMot de passeAdminadmin@datacenter.compassword123Managermanager@datacenter.compassword123Étudiantetudiant@ecole.compassword123👥 L'Équipe (Squad)Projet réalisé dans le cadre universitaire par :Chaimae : Architecte & Admin Système (Auth, Sécurité, Gestion Users).Alae : Gestionnaire de Parc (Inventaire, Catégories, Relations BDD).Yassine : Lead Backend (Algorithme de réservation, Logique métier, Notifications).Houssam : Lead Frontend & UI/UX (Design System, Gantt Chart, Dashboard).
