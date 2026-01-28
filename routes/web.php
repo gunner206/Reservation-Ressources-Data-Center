@@ -98,67 +98,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
     Route::patch('/reservations/{id}/refuse', [ReservationController::class, 'refuse'])->name('reservations.refuse');
 
-
-    // ==========================================
-    // 4. GESTION DES UTILISATEURS (ADMIN UNIQUEMENT)
-    // ==========================================
-    Route::middleware(['role:admin'])->group(function () {
-        
-        // A. Voir la liste
-        Route::get('/users', function () {
-            $users = \App\Models\User::all();
-            return view('users.index', compact('users')); // Dossier 'user'
-        })->name('users.index');
-
-        // B. Formulaire de modification
-        Route::get('/users/{id}/edit', function ($id) {
-            $user = \App\Models\User::findOrFail($id);
-            return view('users.edit', compact('user')); // Dossier 'user'
-        })->name('users.edit');
-
-        // C. Sauvegarder la modification
-        Route::put('/users/{id}', function (Request $request, $id) {
-            $user = \App\Models\User::findOrFail($id);
-            $user->role = $request->role;
-            $user->save();
-            return redirect()->route('users.index')->with('success', 'Rôle mis à jour avec succès !');
-        })->name('users.update');
-
-        // D. Supprimer un utilisateur
-        Route::delete('/users/{id}', function ($id) {
-            $user = \App\Models\User::find($id);
-            
-            // Protection : On empêche l'admin de se supprimer lui-même !
-            if ($user->id === Auth::id()) {
-                return back()->with('error', 'Vous ne pouvez pas supprimer votre propre compte !');
-            }
-
-            if ($user) {
-                $user->delete();
-            }
-            return back()->with('success', 'Utilisateur supprimé.');
-        })->name('users.destroy');
-    });
-
-
-    // --- RESSOURCES ---
     
-    // 1. Lecture pour tous (Voir le matériel)
-    Route::get('/ressources', [RessourceController::class, 'index'])->name('ressources.index');
-    Route::get('/ressources/{id}', [RessourceController::class, 'show'])->name('ressources.show');
+  // --- RESSOURCES ---
 
-    // 2. Gestion (Création/Edition) -> Admin & Manager uniquement
+    // 1. Routes de GESTION (Admin & Manager) 
     Route::middleware(['role:admin,manager'])->group(function () {
         // Création
         Route::get('/ressources/create', [RessourceController::class, 'create'])->name('ressources.create');
         Route::post('/ressources', [RessourceController::class, 'store'])->name('ressources.store');
-        
-        // Édition
         Route::get('/ressources/{id}/edit', [RessourceController::class, 'edit'])->name('ressources.edit');
         Route::put('/ressources/{id}', [RessourceController::class, 'update'])->name('ressources.update');
     });
 
-    // 3. Suppression -> Admin uniquement
+    // 2. Routes de CONSULTATION (Tous les utilisateurs)
+    Route::get('/ressources', [RessourceController::class, 'index'])->name('ressources.index');
+    Route::get('/ressources/{id}', [RessourceController::class, 'show'])->name('ressources.show');
+
+    // 3. Suppression (Admin uniquement)
     Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])
           ->middleware('role:admin')
           ->name('ressources.destroy');
