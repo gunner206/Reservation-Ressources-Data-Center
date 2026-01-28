@@ -714,4 +714,60 @@ while keeping the css property of gradiant color rotation */
             cursor: pointer;
         }
 
+        /* --- BOUTONS RESSOURCES --- */
+.btn-ressource-action {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--teal-button);
+    color: white;
+    border-radius: 30px; 
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-ressource-action:hover {
+    background-color: white;
+    color: var(--bg-color);
+    box-shadow: 0 0 15px var(--teal-button);
+    transform: translateY(-2px);
+}
+
+.btn-ressource-cancel {
+    color: var(--text-gray);
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-ressource-cancel:hover {
+    color: white;
+}
+.btn-primary-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teal-button);
+    color: var(--bg-color) !important; /* Texte sombre sur fond clair pour la lisibilité */
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 15px rgba(86, 179, 163, 0.2);
+}
+
+.btn-primary-action:hover {
+    background-color: white;
+    box-shadow: 0 0 20px var(--teal-button);
+    transform: translateY(-2px);
+}
+
 
