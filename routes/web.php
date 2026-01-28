@@ -32,35 +32,25 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
     }
-    // Récupération des données pour la landing page
     $reservations = Reservation::with(['user', 'resource'])->latest()->get();
     $resources = Resource::with('category')->where('is_active', true)->get();
 
     return view('welcome', compact('reservations', 'resources'));
 })->name('home');
 
-// Pages d'information
 Route::get('/about', [ContactController::class, 'about'])->name('about');
 Route::get('/rules', function () {
     return view('rules');
-});
+})->name('rules');
 
 
 // ==========================================
 // 2. ZONE INVITÉS (GUEST)
-// Connexion & Inscription uniquement
 // ==========================================
 Route::middleware('guest')->group(function () {
-
-    // Affichage du formulaire de connexion
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    
-    // Traitement de la connexion
     Route::post('/login', [AuthController::class, 'login']);
-    
-    // Traitement de l'inscription
     Route::post('/register', [AuthController::class, 'register'])->name('register');
-
 });
 
 
@@ -69,7 +59,6 @@ Route::middleware('guest')->group(function () {
 // ==========================================
 Route::middleware('auth')->group(function () {
 
-    // Déconnexion
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // --- DASHBOARD ---
@@ -77,7 +66,6 @@ Route::middleware('auth')->group(function () {
         $totalResources = Resource::count();
         $activeResources = Resource::where('is_active', true)->count();
         
-        // Calcul des statistiques
         $stats = [
             'total_users'          => User::count(),
             'reservations_pending' => Reservation::where('status', 'pending')->count(),
@@ -86,7 +74,6 @@ Route::middleware('auth')->group(function () {
             'occupancy'            => $totalResources > 0 ? round((Reservation::where('status', 'approved')->count() / $totalResources) * 100) : 0,
         ];
         
-        // Activités récentes
         $recentActivities = Reservation::with(['user', 'resource'])->latest()->take(6)->get();
 
         return view('dashboard', compact('stats', 'recentActivities'));
@@ -94,62 +81,46 @@ Route::middleware('auth')->group(function () {
 
     // --- RÉSERVATIONS ---
     Route::resource('reservations', ReservationController::class);
-    // Actions spécifiques (Approuver / Refuser)
     Route::patch('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
     Route::patch('/reservations/{id}/refuse', [ReservationController::class, 'refuse'])->name('reservations.refuse');
 
-    
-  // --- RESSOURCES ---
-
-    // 1. Routes de GESTION (Admin & Manager) 
+    // --- RESSOURCES ---
     Route::middleware(['role:admin,manager'])->group(function () {
-        // Création
         Route::get('/ressources/create', [RessourceController::class, 'create'])->name('ressources.create');
         Route::post('/ressources', [RessourceController::class, 'store'])->name('ressources.store');
         Route::get('/ressources/{id}/edit', [RessourceController::class, 'edit'])->name('ressources.edit');
         Route::put('/ressources/{id}', [RessourceController::class, 'update'])->name('ressources.update');
     });
 
-    // 2. Routes de CONSULTATION (Tous les utilisateurs)
     Route::get('/ressources', [RessourceController::class, 'index'])->name('ressources.index');
     Route::get('/ressources/{id}', [RessourceController::class, 'show'])->name('ressources.show');
-
-    // 3. Suppression (Admin uniquement)
-    Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])
-          ->middleware('role:admin')
-          ->name('ressources.destroy');
+    Route::delete('/ressources/{id}', [RessourceController::class, 'destroy'])->middleware('role:admin')->name('ressources.destroy');
 
     // --- SUPPORT / TICKETS ---
     Route::get('/support', [TicketController::class, 'create'])->name('tickets.create');
     Route::post('/support', [TicketController::class, 'store'])->name('tickets.store');
+    // Ajout de la route index pour éviter l'erreur
+    Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
+
+    // --- UTILISATEURS (ADMIN) ---
+    Route::get('/users', function() { return "Page Utilisateurs à venir"; })->name('users.index');
 
     // --- NOTIFICATIONS ---
     Route::get('/notifications', function () {
         $user = auth()->user();
-
-        $notifications = \App\Models\Notification::where('user_id', $user->id)
-                            ->orderBy('created_at', 'desc')
-                            ->get();
-
-        \App\Models\Notification::where('user_id', $user->id)
-            ->whereNull('read_at')
-            ->update(['read_at' => now()]);
-
-        
+        $notifications = \App\Models\Notification::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        \App\Models\Notification::where('user_id', $user->id)->whereNull('read_at')->update(['read_at' => now()]);
         return view('notifications.index', compact('notifications'));
     })->name('notifications.index');
 });
 
 // ==========================================
-// 5. ZONE TEST (Optionnel - Pour Debug)
+// 5. ZONE TEST
 // ==========================================
 Route::get('/test-db', function() {
     return [
         'status' => 'OK',
         'database_check' => 'Connected',
-        'counts' => [
-            'users'        => User::count(),
-            'resources'    => Resource::count(),
-        ]
+        'counts' => ['users' => User::count(), 'resources' => Resource::count()]
     ];
 });
