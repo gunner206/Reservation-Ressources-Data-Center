@@ -69,7 +69,8 @@ Créez les tables et injectez les données de test (Admin, Ressources, Catégori
     php artisan serve
 Rendez-vous sur http://localhost:8000.
 
-## Comptes de Test (Seeders)Une fois la commande ``migrate:fresh --seed`` lancée, vous pouvez utiliser ces comptes :
+## Comptes de Test (Seeders)
+Une fois la commande ``migrate:fresh --seed`` lancée, vous pouvez utiliser ces comptes :
 Role | Email | Password |
 :--- | :--- | :--- |
 Admin| chaimae@centrum.com | password123 |
