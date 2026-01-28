@@ -177,15 +177,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', function () {
         $user = auth()->user();
 
-        // 1. ACTION D'ABORD : On marque tout comme "Lu" dans la base
+        $notifications = \App\Models\Notification::where('user_id', $user->id)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
         \App\Models\Notification::where('user_id', $user->id)
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
 
-        // 2. RÉCUPÉRATION ENSUITE : On charge les notifs (qui sont maintenant à jour)
-        $notifications = \App\Models\Notification::where('user_id', $user->id)
-                            ->orderBy('created_at', 'desc')
-                            ->get();
         
         return view('notifications.index', compact('notifications'));
     })->name('notifications.index');

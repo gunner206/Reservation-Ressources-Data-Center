@@ -100,9 +100,12 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Reservation $reservation)
-    {  
-        //
+    public function show($id)
+    {
+        // On charge la réservation avec l'utilisateur et la ressource
+        $reservation = \App\Models\Reservation::with(['user', 'resource'])->findOrFail($id);
+        
+        return view('reservations.show', compact('reservation'));
     }
 
     /**

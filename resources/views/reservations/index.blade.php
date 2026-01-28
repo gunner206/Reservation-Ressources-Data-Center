@@ -60,10 +60,11 @@
                 </td>
 
                 <td>
-                    
                     @if((auth()->user()->role === 'manager' || auth()->user()->role === 'admin') && $res->status === 'pending')
                         <div class="action-buttons">
-                            
+                            <a href="{{ route('reservations.show', $res->id) }}" class="btn-edit" title="Voir détails">
+                                Details
+                            </a>
                             <form action="{{ route('reservations.approve', $res->id) }}" method="POST">
                                 @csrf @method('PATCH')
                                 <button type="submit" class="btn-edit" title="Valider">Valider</button>
@@ -81,7 +82,7 @@
                     @else
                         <small style="color: #aaa;">Aucune action</small>
                     @endif
-
+                    <br>
                 </td>
             </tr>
             @endforeach

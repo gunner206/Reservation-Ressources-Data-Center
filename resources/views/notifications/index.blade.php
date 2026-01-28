@@ -2,31 +2,6 @@
 
 @section('content')
 
-<style>
-    .notif-item {
-        background: #1a202c;
-        border-bottom: 1px solid #2d3748;
-        padding: 20px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-        transition: 0.3s;
-    }
-    
-    /* Style pour les messages lus (un peu transparents) */
-    .is-read {
-        opacity: 0.6;
-    }
-
-    /* Style pour les messages NON lus (Bordure rouge à gauche) */
-    .is-unread {
-        border-left: 4px solid #e53e3e;
-        background-color: #2d3748; /* Un peu plus clair pour ressortir */
-    }
-    li:hover {
-        background-color: #f8f9fa !important;
-    }
-</style>
-
 <div class="container" style="max-width: 800px; margin: 50px auto; color: white;">
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
@@ -59,4 +34,28 @@
         </ul>
     @endif
 </div>
+<style>
+    .notif-item {
+        background: #1a202c;
+        border-bottom: 1px solid #2d3748;
+        padding: 20px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    
+    /* Style pour les messages lus (un peu transparents) */
+    .is-read {
+        opacity: 0.6;
+    }
+
+    /* Style pour les messages NON lus (Bordure rouge à gauche) */
+    .is-unread {
+        border-left: 4px solid #e53e3e;
+        background-color: #2d3748; /* Un peu plus clair pour ressortir */
+    }
+    li:hover {
+        background-color: #f8f9fa !important;
+    }
+</style>
 @endsection
