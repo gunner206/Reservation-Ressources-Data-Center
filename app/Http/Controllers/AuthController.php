@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash; // <-- Vérifie que cette ligne est là aussi
+use Illuminate\Support\Facades\Hash; 
 use App\Models\User;
 
 class AuthController extends Controller
@@ -28,7 +28,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Redirection selon le rôle (On fera mieux après, pour l'instant : dashboard)
+            // Redirection selon le rôle 
             return redirect()->intended('dashboard');
         }
 

@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
         // 1. Chaimae (Admin)
         $admin = User::create([
             'name' => 'Chaimae',
-            'email' => 'chaimae@centrum.ma', // Email vu dans ta capture
+            'email' => 'chaimae@centrum.ma', 
             'password' => Hash::make('password123'),
             'role' => 'admin',
             'status' => 'active',
             'department' => 'Direction IT',
-            'avatar' => 'images/chaimae.png', // Chemin vu dans ta DB
+            'avatar' => 'images/chaimae.png', 
             'bio' => 'Administratrice Système & Développeuse. Passionnée par le Cloud Computing et le développement Web.',
             'linkedin_url' => 'https://www.linkedin.com/in/chaimae-zaki-8250992a3',
             'github_url' => 'https://github.com/zakichaimae-byte',
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'manager',
             'status' => 'active',
             'department' => 'Infrastructure',
-            'avatar' =>'images/alae.png', // Met le chemin si tu as l'image
+            'avatar' =>'images/alae.png', 
             'bio' => 'Expert en administration système et réseaux. Je m\'assure que l\'infrastructure du Data Center est toujours opérationnelle et sécurisée.',
             'linkedin_url' => 'https://www.linkedin.com/in/alae-jaaouani-7a9b4a396',
             'github_url' => 'https://github.com/Alae-jaa',
@@ -57,8 +57,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'manager',
             'status' => 'active',
             'department' => 'Développement',
-            'avatar' => null,
+            'avatar' => 'images/yassine.png',
             'bio' => 'Développeur Full Stack et passionné d\'automatisation. J\'aime optimiser le code pour garantir une fluidité maximale aux utilisateurs.',
+             'linkedin_url' => 'https://www.linkedin.com/in/yassine-chenayti-3a9399389',
             'github_url' => 'https://github.com/gunner206',
         ]);
 
@@ -69,20 +70,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'manager',
             'status' => 'active',
             'department' => 'Maintenance',
-            'avatar' => null,
+            'avatar' => 'images/houssame.png',
             'bio' => 'Spécialiste IT et maintenance hardware. Je veille à la performance des équipements et à la résolution rapide des incidents techniques.',
+             'linkedin_url' => 'https://www.linkedin.com/in/houssam-bn-0364a9295', 
             'github_url' => 'https://github.com/houssam-icon',
         ]);
 
-        // 5. Visiteur Test (Optionnel)
-        User::create([
-            'name' => 'Visiteur Externe',
-            'email' => 'guest@gmail.com',
-            'password' => Hash::make('password123'),
-            'role' => 'guest',
-            'status' => 'pending',
-            'department' => null,
-        ]);
 
         $student = User::create([
             'name' => 'Etudiant',
@@ -95,14 +88,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        // --------------------------------------------
-        // 2. CRÉATION DES CATÉGORIES
-        // --------------------------------------------
+      
+        //CREATION DES CATEGORIES
+      
         $this->ajouterCategories();
 
-        // --------------------------------------------
-        // 3. CRÉATION DES RESSOURCES
-        // --------------------------------------------
+       
+        //CREATION DES RESSOURCES
+        
         $this->ajouterRessources();
 
         $this->ajouterReservations($admin, $student);
