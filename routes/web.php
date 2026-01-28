@@ -168,7 +168,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/support', [TicketController::class, 'store'])->name('tickets.store');
 
     // --- NOTIFICATIONS ---
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications', function () {
+        $user = auth()->user();
+
+        $notifications = \App\Models\Notification::where('user_id', $user->id)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+        \App\Models\Notification::where('user_id', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        
+        return view('notifications.index', compact('notifications'));
+    })->name('notifications.index');
 });
 
 // ==========================================
