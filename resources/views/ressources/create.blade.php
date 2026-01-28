@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="form-container">
-        <h1>Nouvelle Ressource</h1>
+        <h1 style="text-align: center; margin-bottom: 30px;">Nouvelle Ressource</h1>
 
         <form class="data-form" method="POST" action="{{ route('ressources.store') }}">
             @csrf
@@ -25,7 +25,7 @@
                 @endforeach
             </select>
 
-            <fieldset style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+            <fieldset>
                 <legend>Spécifications Techniques</legend>
                 <input type="text" name="cpu" placeholder="CPU (ex: Intel Xeon)">
                 <input type="text" name="ram" placeholder="RAM (ex: 64GB)">
@@ -39,7 +39,10 @@
                 <option value="0">Inactif (Maintenance/HS)</option>
             </select>
 
-            <button type="submit">ENREGISTRER LA RESSOURCE</button>
+            <div style="margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+                <button type="submit" class="btn-ressource-action">Enregistrer la ressource</button>
+                <a href="{{ route('ressources.index') }}" class="btn-ressource-cancel">Annuler</a>
+            </div>
         </form>
     </div>
 
