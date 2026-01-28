@@ -1,45 +1,49 @@
 /* =========================================
-   GESTION DU SLIDER (ANIMATION)
+   1. GESTION DU SLIDER (LOGIN REGISTER)
    ========================================= */
 const container = document.getElementById('container');
 const registerBtn = document.getElementById('register');
 const loginBtn = document.getElementById('login');
 
-if (registerBtn && loginBtn && container) {
-    // Quand on clique sur "S'inscrire" (dans le panneau de droite)
-    registerBtn.addEventListener('click', () => {
-        container.classList.add("active");
-    });
+// Événement pour glisser vers l'inscription
+registerBtn.addEventListener('click', () => {
+    container.classList.add("active");
+});
 
-    // Quand on clique sur "Se connecter" (dans le panneau de gauche)
-    loginBtn.addEventListener('click', () => {
-        container.classList.remove("active");
-    });
+// Événement pour glisser vers la connexion
+loginBtn.addEventListener('click', () => {
+    container.classList.remove("active");
+});
+
+/* =========================================
+   2. GESTION DE L'OEIL (MOT DE PASSE)
+   ========================================= */
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const iconImage = document.getElementById(iconId);
+    const pathEyeOpen = "/images/eye.png";
+    const pathEyeClosed = "/images/eye-slash.png";
+
+    if (input.type === "password") {
+        // AFFICHER LE MOT DE PASSE
+        input.type = "text";
+        iconImage.src = pathEyeClosed; // On change l'image pour "Oeil barré"
+    } else {
+        // CACHER LE MOT DE PASSE
+        input.type = "password";
+        iconImage.src = pathEyeOpen; // On remet l'image "Oeil ouvert"
+    }
 }
 
 /* =========================================
-   GESTION DE L'OEIL (MOT DE PASSE)
+   3. AUTO-OUVERTURE VIA URL (ex: ?action=signup)
    ========================================= */
-function togglePassword(inputId, icon) {
-    const input = document.getElementById(inputId);
-    
-    // Si le type est password, on le passe en text (visible)
-    if (input.type === "password") {
-        input.type = "text";
-        icon.classList.remove("fa-eye");
-        icon.classList.add("fa-eye-slash"); // Change l'icône
-    } else {
-        // Sinon, on remet en password (caché)
-        input.type = "password";
-        icon.classList.remove("fa-eye-slash");
-        icon.classList.add("fa-eye"); // Remet l'icône originale
-    }
-}
+document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const action = urlParams.get('action');
 
-
-    // 3. Si l'action est 'signup', on active le panneau d'inscription direct !
+    // Si l'URL contient ?action=signup, on active le panneau
     if (action === 'signup') {
         container.classList.add("active");
     }
+});

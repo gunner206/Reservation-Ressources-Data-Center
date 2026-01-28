@@ -1,0 +1,96 @@
+
+
+/* 1. NAVIGATION */
+.rules-nav {
+    padding: 1.5rem;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    color: #60a5fa; 
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #93c5fd; 
+}
+
+.back-link svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+/* 2. CONTENEUR PRINCIPAL */
+.rules-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    font-family: sans-serif;
+}
+
+/* 3. EN-TÊTE */
+.rules-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.rules-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    
+    background: linear-gradient(to right, #60a5fa, #6366f1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.rules-subtitle {
+    color: #9ca3af; 
+    font-size: 1.1rem;
+}
+
+/* 4. CARTES DES RÈGLES */
+.rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+}
+
+.rule-card {
+    background-color: #1f2937; 
+    padding: 1.5rem;
+    border-radius: 0.75rem; 
+    border: 1px solid #374151;
+    transition: border-color 0.3s ease;
+}
+
+.rule-card:hover {
+    border-color: #3b82f6; 
+}
+
+.rule-card h3 {
+    color:var(--teal-button); 
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.rule-card p {
+    color: #d1d5db; 
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* 5. FOOTER */
+.rules-footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
