@@ -1,4 +1,4 @@
-/* resources/css/login.css */
+
 
 * {
     margin: 0;
@@ -9,7 +9,6 @@
 
 body {
     background-color: #05051a;
-    /* CHANGEMENT 1 : Fond de page (Gris/Bleu très clair professionnel) */
     background: linear-gradient(to right, #010b18, #05051a);
     display: flex;
     align-items: center;
@@ -48,7 +47,6 @@ body {
 }
 
  button {
-    /* CHANGEMENT 2 : Couleur des boutons (Bleu foncé Data Center) */
     background-color: #1e3a8a;
     color: #fff;
     font-size: 12px;
@@ -225,10 +223,10 @@ body {
     margin-bottom: 15px;
     text-align: center;
 }
-/* --- CORRECTION LARGEUR & POSITION OEIL --- */
+
 .input-group {
     position: relative;
-    width: 100%;          /* Force la div à prendre toute la largeur */
+    width: 100%;          
     margin: 8px 0;
     box-sizing: border-box;
 }

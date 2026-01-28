@@ -92,8 +92,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Script chargé à la fin --}}
     <script src="{{ asset('css/login.js') }}"></script> 
 </body>
 </html>

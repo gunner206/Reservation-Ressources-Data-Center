@@ -15,8 +15,7 @@
     </nav>
 
     <div class="rules-container">
-        
-        {{-- Header avec Titre Dégradé --}}
+
         <div class="rules-header">
             <h1 class="rules-title">
                 📜 Règlement Intérieur

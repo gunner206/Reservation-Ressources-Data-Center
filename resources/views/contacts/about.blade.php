@@ -2,10 +2,8 @@
 
 @section('content')
 
-{{-- Lien vers ton CSS personnalisé --}}
 <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
 
-{{-- DÉBUT DU CONTAINER PRINCIPAL --}}
 <div class="container" style="max-width: 1100px; margin: 50px auto; color: white;">
 
     {{-- En-tête --}}
@@ -16,8 +14,6 @@
             Nous sommes là pour garantir la continuité de vos services.
         </p>
     </div>
-
-    {{-- DÉBUT DE LA GRILLE (GRID) --}}
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
         
         @foreach($team as $member)
@@ -53,7 +49,7 @@
                         <img src="{{ asset('images/email.png') }}" alt="Email" style="width: 24px; height: 24px;">
                     </a>
 
-                    {{-- LinkedIn (Seulement si le lien existe) --}}
+                    {{-- LinkedIn --}}
                     @if($member->linkedin_url)
                         <a href="{{ $member->linkedin_url }}" target="_blank" class="social-btn" title="LinkedIn">
                             <img src="{{ asset('images/linkedin.png') }}" alt="LinkedIn" style="width: 24px; height: 24px;">
