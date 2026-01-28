@@ -103,6 +103,7 @@ Route::middleware('auth')->group(function () {
 
     // 1. Routes de GESTION (Admin & Manager) 
     Route::middleware(['role:admin,manager'])->group(function () {
+        // Création
         Route::get('/ressources/create', [RessourceController::class, 'create'])->name('ressources.create');
         Route::post('/ressources', [RessourceController::class, 'store'])->name('ressources.store');
         Route::get('/ressources/{id}/edit', [RessourceController::class, 'edit'])->name('ressources.edit');
@@ -123,11 +124,24 @@ Route::middleware('auth')->group(function () {
     Route::post('/support', [TicketController::class, 'store'])->name('tickets.store');
 
     // --- NOTIFICATIONS ---
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications', function () {
+        $user = auth()->user();
+
+        $notifications = \App\Models\Notification::where('user_id', $user->id)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+        \App\Models\Notification::where('user_id', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        
+        return view('notifications.index', compact('notifications'));
+    })->name('notifications.index');
 });
 
 // ==========================================
-// 4. ZONE TEST (Optionnel - Pour Debug)
+// 5. ZONE TEST (Optionnel - Pour Debug)
 // ==========================================
 Route::get('/test-db', function() {
     return [

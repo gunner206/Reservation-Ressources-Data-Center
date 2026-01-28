@@ -29,6 +29,11 @@
                class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">
                Contacts
             </a>
+            @if(Auth::check() && Auth::user()->role === 'admin')
+                <a href="{{ route('users.index') }}" class="nav-link">
+                    Gestion Users
+                </a>
+            @endif
         </nav>
 
         <div class="auth-section">
@@ -41,6 +46,9 @@
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                 </div>
                 <span class="user-name-label">{{ Auth::user()->name }}</span>
+                <span style="background-color: #3182ce; color: white; font-size: 0.7em; padding: 2px 8px; border-radius: 10px; margin-left: 8px; text-transform: uppercase; font-weight: bold; vertical-align: middle;">
+                    {{ Auth::user()->role }}
+                </span>
             </label>
             @php
                 $unreadCount = \App\Models\Notification::where('user_id', auth()->id())
