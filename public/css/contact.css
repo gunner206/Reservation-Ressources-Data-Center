@@ -1,0 +1,195 @@
+ .team-card {
+        background-color: #2d3748;
+        border-radius: 15px;
+        padding: 30px 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #4a5568;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        border-color: #63b3ed;
+    }
+
+    /* Photo */
+    .avatar-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 3px solid #63b3ed;
+        box-shadow: 0 0 15px rgba(99, 179, 237, 0.3);
+    }
+
+    .avatar-initials {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        font-weight: bold;
+        font-size: 2rem;
+        color: #1a202c;
+        border: 3px solid #ecc94b;
+    }
+
+    /* Textes */
+    .member-name {
+        color: white;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .member-role {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 15px;
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.1);
+    }
+
+    .member-bio {
+        color: #a0aec0;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        font-style: italic;
+        flex-grow: 1; 
+    }
+
+    /* Icônes Réseaux Sociaux */
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .social-btn {
+        width: 35px;
+        height: 35px;
+        background: #1a202c;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        transition: background 0.3s, color 0.3s;
+        border: 1px solid #4a5568;
+    }
+
+    .social-btn:hover {
+        background: #63b3ed; 
+        color: white;
+        border-color: #63b3ed;
+    }
+    
+    /* Couleurs spécifiques au survol */
+    .social-btn.linkedin:hover { background: #0077b5; border-color: #0077b5; }
+    .social-btn.github:hover { background: #333; border-color: #333; }
+    .social-btn.email:hover { background: #e53e3e; border-color: #e53e3e; }
+
+/* --- Section Liens Utiles --- */
+
+/* Le conteneur principal */
+.links-section {
+    width: 100%;
+    margin-top: 4rem;    
+    margin-bottom: 5rem; 
+    /* Pour s'assurer qu'il ne reste pas coincé dans la grille */
+    grid-column: 1 / -1; 
+    clear: both;
+}
+
+/* Le conteneur du titre */
+.links-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem; 
+}
+
+/* Le texte du titre */
+.links-title {
+    color: #9ca3af;       
+    font-size: 0.875rem;  
+    text-transform: uppercase;
+    letter-spacing: 0.1em; 
+    margin: 0;
+    display: flex;        /* Pour aligner les lignes */
+    align-items: center;
+}
+
+.links-title::before,
+.links-title::after {
+    content: "";
+    display: block;
+    width: 400px;          
+    height: 1px;          
+    background-color: #9ca3af; 
+    margin: 0 15px;       /* Espace entre le texte et la ligne */
+}
+
+/* --- Les Boutons --- */
+
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem; 
+}
+
+.btn-custom {
+    padding: 12px 32px; 
+    font-weight: bold;
+    color: white;
+    border-radius: 0.25rem; 
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+.btn-blue {
+     background-color: var(--teal-button);
+            color: white ;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+            cursor: pointer;
+}
+
+
+
+.btn-gray {
+   background-color:  #ecc94b;
+            color: black;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+            cursor: pointer; 
+}

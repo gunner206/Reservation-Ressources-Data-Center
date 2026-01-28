@@ -4,7 +4,7 @@
 <div class="support-container" style="max-width: 800px; margin: 50px auto; color: white;">
     
     <div style="background-color: #1a202c; padding: 40px; border-radius: 15px; border: 1px solid #2d3748;">
-        <h2 style="margin-bottom: 10px; border-bottom: 2px solid #4299e1; padding-bottom: 10px;">
+        <h2 style="margin-bottom: 10px; border-bottom: 2px solid #24547aff; padding-bottom: 10px;">
             🛠 Signaler un incident
         </h2>
         <p style="color: #a0aec0; margin-bottom: 30px;">
@@ -41,7 +41,7 @@
 
             {{-- Bouton --}}
             <button type="submit" 
-                    style="width: 100%; background-color: #e53e3e; color: white; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;">
+                    style="width: 100%; background-color: #2091ddff; color: white; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;">
                 🚀 Envoyer le signalement
             </button>
         </form>
