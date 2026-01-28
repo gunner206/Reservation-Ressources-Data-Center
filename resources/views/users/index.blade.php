@@ -64,17 +64,32 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>
-                    @php 
-                        $role = strtolower($user->role ?? 'user'); 
-                        // Si le champ est vide dans la BDD, on force 'user'
-                        if($role == '') { $role = 'user'; }
-                    @endphp
+               <td>
+    <span style="color: white; font-size: 17px;">
+        ( "{{ $user->role }}")
+    </span>
 
-                    <span class="badge {{ $role == 'admin' ? 'admin' : ($role == 'technicien' ? 'tech' : 'user') }}">
-                        {{ ucfirst($role) }}
-                    </span>
-                </td>
+    @php 
+        // Si le rôle est vide ou null, on force 'user'
+        $roleBrut = $user->role;
+        if(empty($roleBrut)) { 
+            $roleFinal = 'user'; 
+        } else {
+            $roleFinal = strtolower($roleBrut);
+        }
+
+        $badgeClass = match($roleFinal) {
+            'admin' => 'badge-admin',
+            'manager' => 'badge-manager',
+            'technicien' => 'badge-tech',
+            default => 'badge-user',
+        };
+    @endphp
+
+    <span class="badge {{ $badgeClass }}">
+        {{ ucfirst($roleFinal) }}
+    </span>
+</td>
                 <td>{{ $user->created_at->format('d/m/Y') }}</td>
                 
                 <td>
